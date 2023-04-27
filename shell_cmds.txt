@@ -1,0 +1,13 @@
+// Windows shell command for removing last 2 characters of ervery .png file in folder ("_L" in CamVid labeld images, prepared for image-segmentation-keras project training validating and testing dataloader (dataset) setup)
+*.png | rename-item -newname { $_.basename.substring(0,$_.basename.length-2) + $_.extension }
+
+
+// datasets:
+python -m keras_segmentation verify_dataset --images_path="datasets/CamVid/train/raw_relabeled_test/" --segs_path="datasets/CamVid/train/labeled_relabeled" --n_classes=32
+python -m keras_segmentation visualize_dataset --images_path="datasets/CamVid/train/raw_relabeled_test" --segs_path="datasets/CamVid/train/labeled_relabeled" --n_classes=32
+
+// training:
+python -m keras_segmentation train --checkpoints_path="trained/v_3/" --train_images="datasets/CamVid/train/raw_relabeled_test/" --train_annotations="datasets/CamVid/train/labeled_relabeled/" --val_images="datasets/CamVid/val/raw/" --val_annotations="datasets/CamVid/val/labeled_relabeled/" --n_classes=32 --input_height=720 --input_width=960 --model_name="segnet"
+
+// evaluation (IoU):
+python -m keras_segmentation evaluate_model --checkpoints_path="trained\v_3\" --images_path="datasets/CamVid/val/raw/" --segs_path="datasets/CamVid/val/labeled_relabeled/"

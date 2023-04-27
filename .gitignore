@@ -106,3 +106,14 @@ ENV/
 
 # VSCode settings
 .vscode/
+
+
+# -> later put everything into data folder as new root for all sets and models to be ignored all at once... (see on top of this file)
+# My cfgs
+# datasets
+datasets
+new_training
+new_val
+
+# trained models
+trained

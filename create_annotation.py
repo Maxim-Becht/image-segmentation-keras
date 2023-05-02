@@ -4,8 +4,8 @@ import numpy as np
 
 clear = lambda: os.system('cls')
 
-folder_dir = "./datasets/CamVid/train/labeled/"
-new_dir = "./new_train/"
+folder_dir = "./datasets/CamVid/test/labeled/"
+new_dir = "./new_test/"
 
 # key=original rgb value; value=tuple(label_id, label_name, label_pixelcount)
 annotations = { 
@@ -28,12 +28,12 @@ annotations = {
     '[64,64, 0]': [16, "pedestrian", 0],
     '[128, 64,128]': [17, "road", 0],
     '[128,128,192]': [18, "road_shoulder", 0],
-    '[  0,  0,192]': [19, "Sidewalk", 0],		
+    '[  0,  0,192]': [19, "sidewalk", 0],		
     '[192,128,128]': [20, "sign_symbol", 0],	
     '[128,128,128]': [21, "sky", 0],	
     '[ 64,128,192]': [22, "suv_pickup_truck", 0],	
     '[ 0, 0,64]': [23, "traffic_cone", 0],
-    '[ 0,64,64]': [24, "traffic_light", 0],
+    '[ 0,64,64]': [24, "traffic_light", 0], #
     '[192, 64,128]': [25, "train", 0],
     '[128,128,  0]': [26, "tree", 0],	
     '[192,128,192]': [27, "truck_bus", 0],
@@ -49,9 +49,8 @@ for img_name in os.listdir(folder_dir):
     if img_name.endswith(".png"):
         i+=1
 
-        if i <= 25:     # 25 training images already done, skip 25
+        if i <= 151:     # x training images already done, skip x
             continue
-
 
         # if i <= x:     # x training images already done, skip x
         #     continue
@@ -70,9 +69,20 @@ for img_name in os.listdir(folder_dir):
                 pixel = img.getpixel((x, y))
                 pixel = np.array2string(np.asarray(pixel), separator=',')
 
-                # increase pixelcounter of label
-                annotations[pixel][2] += 1
+                # if entry doesnt exist (artifacts or ignore label case) Seq05VD_f02610_L.png fails here -> Artifacts!
+                try:
+                    annotations[pixel][2] += 1  # pixel counter++ for label associated with color
+                except KeyError:
+                    pixel = '[0,0,0]' # -> "void"
+                    annotations[pixel][2] += 1
 
+                
+                annotations[pixel][2] += 1
+                id, name, counter = annotations[pixel]
+                #print("id:{}, name:{}, counter:{}".format(id, name, counter))
+                new_img.putpixel((x, y), (id, id, id))
+
+                
                 id, name, counter = annotations[pixel]
                 #print("id:{}, name:{}, counter:{}".format(id, name, counter))
                 new_img.putpixel((x, y), (id, id, id))

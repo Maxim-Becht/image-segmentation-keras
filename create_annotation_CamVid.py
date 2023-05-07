@@ -82,11 +82,6 @@ for img_name in os.listdir(folder_dir):
                 #print("id:{}, name:{}, counter:{}".format(id, name, counter))
                 new_img.putpixel((x, y), (id, id, id))
 
-                
-                id, name, counter = annotations[pixel]
-                #print("id:{}, name:{}, counter:{}".format(id, name, counter))
-                new_img.putpixel((x, y), (id, id, id))
-
         new_img.save("{}{}".format(new_dir, img_name))
 
     clear()

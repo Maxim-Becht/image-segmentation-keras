@@ -15,3 +15,26 @@ python -m keras_segmentation train --checkpoints_path="data\trained\SegNet_VGG16
 // evaluation (IoU):
 python -m keras_segmentation evaluate_model --checkpoints_path="data\trained\SegNet_VGG16_CamVid\v_1\" --images_path="data/datasets/CamVid/test/raw/" --segs_path="data/datasets/CamVid/test/labeled/"
 
+// predictions:
+python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_CamVid\v_1\best\" --input_path="data/datasets/CamVid/test/raw/" --output_path="data/datasets/CamVid/predict/SegNet/"
+python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_VGG16_CamVid\v_1\" --input_path="data/datasets/CamVid/test/raw/" --output_path="data/datasets/CamVid/predict/SegNet_VGG16/"
+
+
+
+
+// For SegNet_TrimBot model:
+// datasets:
+python -m keras_segmentation verify_dataset --images_path="data/datasets/TrimBot/train/raw/" --segs_path="data/datasets/TrimBot/train/labeled/" --n_classes=10
+python -m keras_segmentation visualize_dataset --images_path="data/datasets/TrimBot/train/raw/" --segs_path="data/datasets/TrimBot/train/labeled/" --n_classes=10
+
+// training:
+python -m keras_segmentation train --checkpoints_path="data\trained\SegNet_TrimBot\v_1\" --auto_resume_checkpoint --train_images="data/datasets/TrimBot/train/raw/" --train_annotations="data/datasets/TrimBot/train/labeled/" --val_images="data/datasets/TrimBot/val/raw/" --val_annotations="data/datasets/TrimBot/val/labeled/" --n_classes=10 --input_height=480 --input_width=640 --model_name="segnet" --epochs=10
+
+python -m keras_segmentation train --checkpoints_path="data\trained\SegNet_VGG16_TrimBot\v_1\" --auto_resume_checkpoint --train_images="data/datasets/TrimBot/train/raw/" --train_annotations="data/datasets/TrimBot/train/labeled/" --val_images="data/datasets/TrimBot/val/raw/" --val_annotations="data/datasets/TrimBot/val/labeled/" --n_classes=10 --input_height=480 --input_width=640 --model_name="vgg_segnet" --epochs=10
+
+// evaluation (IoU):
+python -m keras_segmentation evaluate_model --checkpoints_path="data\trained\SegNet_VGG16_TrimBot\v_1\" --images_path="data/datasets/TrimBot/test/raw/" --segs_path="data/datasets/TrimBot/test/labeled/"
+
+// predictions:
+python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_TrimBot\v_1\" --input_path="data/datasets/TrimBot/test/raw/" --output_path="data/datasets/TrimBot/predict/"
+

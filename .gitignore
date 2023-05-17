@@ -114,3 +114,6 @@ new_training
 new_TrimBot_training
 new_val
 new_test
+new_STIHL_SemSeg_Data_train
+new_STIHL_SemSeg_Data_train_simplyfied
+new_STIHL_SemSeg_Data_train_simplyfied_3

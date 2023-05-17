@@ -10,7 +10,7 @@ from multiprocessing import Pool
 
 clear = lambda: os.system('cls')
 
-folder_dir = "./data/datasets/TrimBot/training/labeled/"
+folder_dir = "./data/datasets/TrimBot/train/labeled/"
 new_dir = "./new_TrimBot_training/"
 
 # key=original rgb value; value=tuple(label_id, label_name, label_pixelcount)

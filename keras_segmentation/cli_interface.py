@@ -35,6 +35,8 @@ def train_action(command_parser):
     parser.add_argument("--steps_per_epoch", type=int, default=512)
     parser.add_argument("--optimizer_name", type=str, default="adam")
 
+    parser.add_argument("--ignore_zero_class", action='store_true')
+
     def action(args):
         return train(model=args.model_name,
                      train_images=args.train_images,
@@ -53,7 +55,8 @@ def train_action(command_parser):
                      auto_resume_checkpoint=args.auto_resume_checkpoint,
                      load_weights=args.load_weights,
                      steps_per_epoch=args.steps_per_epoch,
-                     optimizer_name=args.optimizer_name)
+                     optimizer_name=args.optimizer_name, 
+                     ignore_zero_class=args.ignore_zero_class)
 
     parser.set_defaults(func=action)
 

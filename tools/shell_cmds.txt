@@ -20,8 +20,6 @@ python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_Cam
 python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_VGG16_CamVid\v_1\" --input_path="data/datasets/CamVid/test/raw/" --output_path="data/datasets/CamVid/predict/SegNet_VGG16/"
 
 
-
-
 // For SegNet_TrimBot model:
 // datasets:
 python -m keras_segmentation verify_dataset --images_path="data/datasets/TrimBot/train/raw/" --segs_path="data/datasets/TrimBot/train/labeled/" --n_classes=10
@@ -38,3 +36,18 @@ python -m keras_segmentation evaluate_model --checkpoints_path="data\trained\Seg
 // predictions:
 python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_TrimBot\v_1\" --input_path="data/datasets/TrimBot/test/raw/" --output_path="data/datasets/TrimBot/predict/"
 
+
+
+// For SegNet_STIHL model:
+// datasets:
+python -m keras_segmentation verify_dataset --images_path="data/datasets/STIHL_SemSeg_Data/train/raw/" --segs_path="data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied/" --n_classes=3
+python -m keras_segmentation visualize_dataset --images_path="data/datasets/STIHL_SemSeg_Data/train/raw/" --segs_path="data/datasets/STIHL_SemSeg_Data/train/color_mask/" --n_classes=3
+
+// training:
+python -m keras_segmentation train --checkpoints_path="data\trained\SegNet_VGG16_STIHL\v_1\" --auto_resume_checkpoint --train_images="data/datasets/STIHL_SemSeg_Data/train/raw/" --train_annotations="data/datasets/STIHL_SemSeg_Data/train/color_mask/" --val_images="data/datasets/STIHL_SemSeg_Data/val/raw/" --val_annotations="data/datasets/STIHL_SemSeg_Data/val/labeled/" --n_classes=3 --input_height=648 --input_width=486 --model_name="vgg_segnet" --epochs=5
+
+// evaluation (IoU):
+python -m keras_segmentation evaluate_model --checkpoints_path="data\trained\SegNet_VGG16_STIHL\v_1\" --images_path="data/datasets/TrimBot/test/raw/" --segs_path="data/datasets/TrimBot/test/labeled/"
+
+// predictions:
+python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_VGG16_STIHL\v_1\" --input_path="data/datasets/TrimBot/test/raw/" --output_path="data/datasets/TrimBot/predict/"

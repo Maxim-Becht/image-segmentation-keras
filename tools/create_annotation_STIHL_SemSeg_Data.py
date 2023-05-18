@@ -10,13 +10,13 @@ from multiprocessing import Pool
 
 clear = lambda: os.system('cls')
 
-#folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_mask/"
+folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_mask/"
 #folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied/"
-folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied_3/"
+#folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied_3/"
 
-#new_dir = "./new_STIHL_SemSeg_Data_train/"
+new_dir = "./new_STIHL_SemSeg_Data_train/"
 #new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied/"
-new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied_3/"
+#new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied_3/"
 
 #key=original rgb value; value=tuple(label_id, label_name, label_pixelcount)
 
@@ -51,12 +51,12 @@ new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied_3/"
 #     '(0,64,255)': [2, "Obstacle", 0],
 # }
 
-annotations = { 
-    '(0,0,0)': [0, "Unlabeled", 0],   
-    '(0,255,0)': [1, "Lawn", 0],   
-    '(0,64,255)': [2, "Obstacle", 0],
-    '(0,32,0)': [3, "Flat", 0],
-}
+# annotations = { 
+#     '(0,0,0)': [0, "Unlabeled", 0],   
+#     '(0,255,0)': [1, "Lawn", 0],   
+#     '(0,64,255)': [2, "Obstacle", 0],
+#     '(0,32,0)': [3, "Flat", 0],
+# }
 
 def operation(img_name):
     if img_name.endswith(".png"):

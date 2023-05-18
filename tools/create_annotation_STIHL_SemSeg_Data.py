@@ -11,17 +11,42 @@ from multiprocessing import Pool
 clear = lambda: os.system('cls')
 
 #folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_mask/"
-folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied/"
-#folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied_3/"
+#folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied/"
+folder_dir = "./data/datasets/STIHL_SemSeg_Data/train/color_masks_simplyfied_3/"
 
 #new_dir = "./new_STIHL_SemSeg_Data_train/"
-new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied/"
-#new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied_3/"
+#new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied/"
+new_dir = "./new_STIHL_SemSeg_Data_train_simplyfied_3/"
 
 #key=original rgb value; value=tuple(label_id, label_name, label_pixelcount)
 
 # annotations = { 
-#     '(0,0,0)': [0, "Unlabeled", 0],   #TODO: create annotations for all classes
+#     '(0,0,0)': [0, "Unlabeled", 0],
+#     '(0,255,0)': [1, "Lawn", 0],   
+#     '(0,255,255)': [2, "NaturalGround", 0],   
+#     '(64,64,64)': [3, "Boundary:Wall", 0],   
+#     '(148,94,37)': [4, "Boundary:Fence", 0],   
+#     '(78,148,37)': [5, "Boundary:Hedge", 0],   
+#     '(0,64,255)': [6, "GenericObject", 0],   
+#     '(0,128,0)': [7, "Vegetation", 0],   
+#     '(255,255,0)': [8, "Ego", 0],   
+#     '(0,128,255)': [9, "Sky", 0],   
+#     '(255,0,0)': [10, "DockingStation", 0],   
+#     '(128,0,0)': [11, "DockingPad", 0],   
+#     '(128,128,128)': [12, "ArtificialGround", 0],   
+#     '(255,0,128)': [13, "ArtificialFlatObject", 0],   
+#     '(255,128,0)': [14, "iMOW", 0],   
+#     '(64,64,0)': [15, "Tool", 0],   
+#     '(255,10,10)': [16, "Human:Adult", 0],   
+#     '(255,20,20)': [17, "Human:Child", 0],   
+#     '(200,200,200)': [18, "Distortion", 0],   
+#     '(15,255,30)': [19, "NaturalFlatObject", 0],
+#     '(255,128,128)': [20, "Animal:Dog", 0],
+#     '(200,200,200)': [21, "Furniture", 0],
+# }
+
+# annotations = { 
+#     '(0,0,0)': [0, "Unlabeled", 0],   
 #     '(0,255,0)': [1, "Lawn", 0],   
 #     '(0,64,255)': [2, "Obstacle", 0],
 # }
@@ -30,14 +55,8 @@ annotations = {
     '(0,0,0)': [0, "Unlabeled", 0],   
     '(0,255,0)': [1, "Lawn", 0],   
     '(0,64,255)': [2, "Obstacle", 0],
+    '(0,32,0)': [3, "Flat", 0],
 }
-
-# annotations = { 
-#     '(0,0,0)': [0, "Unlabeled", 0],   
-#     '(0,255,0)': [1, "Lawn", 0],   
-#     '(0,64,255)': [2, "Obstacle", 0],
-#     '(0,32,0)': [3, "Flat", 0],
-# }
 
 def operation(img_name):
     if img_name.endswith(".png"):
@@ -51,11 +70,23 @@ def operation(img_name):
 
         data = img.load()
 
+        # hit = False
+
         for x in range(0, img.size[0]):
             for y in range(0, img.size[1]):
                 pixel = data[x,y]
                 pixel = '('+','.join(str(x) for x in pixel)+')'
 
+
+                # if pixel == '(200,200,200)':
+                #     hit = True
+            
+        
+        # if hit:
+            # file1 = open("myfile.txt", "a")  # append mode
+            # file1.write("{}\n".format(img_name))
+            # file1.close()
+            # print(img_name)
                 id = 255 # -> "White pixel(s) indicates failure(s)"
                 try:
                     id = annotations[pixel][0]

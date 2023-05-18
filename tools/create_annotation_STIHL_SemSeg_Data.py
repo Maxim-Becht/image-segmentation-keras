@@ -20,30 +20,31 @@ new_dir = "./new_STIHL_SemSeg_Data_train/"
 
 #key=original rgb value; value=tuple(label_id, label_name, label_pixelcount)
 
-# annotations = { 
-#     '(0,0,0)': [0, "Unlabeled", 0],
-#     '(0,255,0)': [1, "Lawn", 0],   
-#     '(0,255,255)': [2, "NaturalGround", 0],   
-#     '(64,64,64)': [3, "Boundary:Wall", 0],   
-#     '(148,94,37)': [4, "Boundary:Fence", 0],   
-#     '(78,148,37)': [5, "Boundary:Hedge", 0],   
-#     '(0,64,255)': [6, "GenericObject", 0],   
-#     '(0,128,0)': [7, "Vegetation", 0],   
-#     '(255,255,0)': [8, "Ego", 0],   
-#     '(0,128,255)': [9, "Sky", 0],   
-#     '(255,0,0)': [10, "DockingStation", 0],   
-#     '(128,0,0)': [11, "DockingPad", 0],   
-#     '(128,128,128)': [12, "ArtificialGround", 0],   
-#     '(255,0,128)': [13, "ArtificialFlatObject", 0],   
-#     '(255,128,0)': [14, "iMOW", 0],   
-#     '(64,64,0)': [15, "Tool", 0],   
-#     '(255,10,10)': [16, "Human:Adult", 0],   
-#     '(255,20,20)': [17, "Human:Child", 0],   
-#     '(200,200,200)': [18, "Distortion", 0],   
-#     '(15,255,30)': [19, "NaturalFlatObject", 0],
-#     '(255,128,128)': [20, "Animal:Dog", 0],
-#     '(200,200,200)': [21, "Furniture", 0],
-# }
+annotations = { 
+    '(0,0,0)': [0, "Unlabeled", 0],
+    '(0,255,0)': [1, "Lawn", 0],   
+    '(0,255,255)': [2, "NaturalGround", 0],   
+    '(64,64,64)': [3, "Boundary:Wall", 0],   
+    '(148,94,37)': [4, "Boundary:Fence", 0],   
+    '(78,148,37)': [5, "Boundary:Hedge", 0],   
+    '(78,148,10)': [6, "Boundary:Building", 0],    
+    '(0,64,255)': [7, "GenericObject", 0],   
+    '(0,128,0)': [8, "Vegetation", 0],   
+    '(255,255,0)': [9, "Ego", 0],   
+    '(0,128,255)': [10, "Sky", 0],   
+    '(255,0,0)': [11, "DockingStation", 0],   
+    '(128,0,0)': [12, "DockingPad", 0],   
+    '(128,128,128)': [13, "ArtificialGround", 0],   
+    '(255,0,128)': [14, "ArtificialFlatObject", 0],   
+    '(255,128,0)': [15, "iMOW", 0],   
+    '(64,64,0)': [16, "Tool", 0],   
+    '(255,10,10)': [17, "Human:Adult", 0],   
+    '(255,20,20)': [18, "Human:Child", 0],   
+    '(255,255,255)': [19, "Distortion", 0],   
+    '(15,255,30)': [20, "NaturalFlatObject", 0],
+    '(255,128,128)': [21, "Animal:Dog", 0],
+    '(200,200,200)': [22, "Furniture", 0],
+}
 
 # annotations = { 
 #     '(0,0,0)': [0, "Unlabeled", 0],   
@@ -87,13 +88,19 @@ def operation(img_name):
             # file1.write("{}\n".format(img_name))
             # file1.close()
             # print(img_name)
-                id = 255 # -> "White pixel(s) indicates failure(s)"
+                id = 0
+
                 try:
                     id = annotations[pixel][0]
-                    #annotations[pixel][2] += 1 uncomment for class pixel counter (not thread safe -> not 100% accurate, when threading)
+                    annotations[pixel][2] += 1 #uncomment for class pixel counter (not thread safe -> not 100% accurate, when threading)
                 except KeyError:
-                    print("KeyError in: ", img_name)
-                    
+                    print("KeyError in: {} at {}, {}".format(img_name, x, y))
+                
+        #         id = 255 # todo: delete!!!!
+        #         if pixel == '(200,200,200)':
+        #             img.putpixel((x, y), (id, id, id))
+        # img.save("{}{}".format(new_dir, img_name))
+
                 new_img.putpixel((x, y), (id, id, id))
         new_img.save("{}{}".format(new_dir, img_name))
 

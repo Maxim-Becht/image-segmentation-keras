@@ -51,11 +51,13 @@ python -m keras_segmentation visualize_dataset --images_path="data/datasets/STIH
 
 python -m keras_segmentation train --checkpoints_path="data\trained\SegNet_STIHL\v_1\" --auto_resume_checkpoint --train_images="data/datasets/STIHL_SemSeg_Data/color_masks/train/raw/" --train_annotations="data/datasets/STIHL_SemSeg_Data/color_masks/train/labeled/" --val_images="data/datasets/STIHL_SemSeg_Data/color_masks/val/raw/" --val_annotations="data/datasets/STIHL_SemSeg_Data/color_masks/val/labeled/" --n_classes=23 --input_height=648 --input_width=486 --model_name="segnet" --ignore_zero_class --epochs=5
 python -m keras_segmentation train --checkpoints_path="data\trained\SegNet_VGG16_STIHL\v_1\" --auto_resume_checkpoint --train_images="data/datasets/STIHL_SemSeg_Data/color_masks/train/raw/" --train_annotations="data/datasets/STIHL_SemSeg_Data/color_masks/train/labeled/" --val_images="data/datasets/STIHL_SemSeg_Data/color_masks/val/raw/" --val_annotations="data/datasets/STIHL_SemSeg_Data/color_masks/val/labeled/" --n_classes=23 --input_height=640 --input_width=480 --model_name="vgg_segnet" --ignore_zero_class --epochs=5
-
+python -m keras_segmentation train --checkpoints_path="data\trained\SegNet_VGG16_STIHL_simple_3\v_1\" --auto_resume_checkpoint --train_images="data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/train/raw/" --train_annotations="data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/train/labeled/" --val_images="data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/val/raw/" --val_annotations="data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/val/labeled/" --n_classes=4 --input_height=640 --input_width=480 --model_name="vgg_segnet" --ignore_zero_class --epochs=5
 
 python -m keras_segmentation evaluate_model --checkpoints_path="data\trained\SegNet_STIHL\v_1\" --images_path="data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/" --segs_path="data/datasets/STIHL_SemSeg_Data/color_masks/test/labeled/"
 
 python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_STIHL\v_1\" --input_path="data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/" --output_path="data/datasets/STIHL_SemSeg_Data/color_masks/predict_60/"
+python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_VGG16_STIHL\v_1\" --input_path="data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/" --output_path="data/datasets/STIHL_SemSeg_Data/color_masks/predict_180_vgg16/"
+python -m keras_segmentation predict --checkpoints_path="data\trained\SegNet_VGG16_STIHL_simple_3\v_1\" --input_path="data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/test/raw/" --output_path="data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/predict_5_vgg16_pretrained/"
 python -m keras_segmentation visualize_dataset --images_path="data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/" --segs_path="data/datasets/STIHL_SemSeg_Data/color_masks/predict_60/" --n_classes=23
 
 color_masks_simplyfied:

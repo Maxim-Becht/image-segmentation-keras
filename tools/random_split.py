@@ -52,10 +52,8 @@ for ext in extensions:
     raw_src_paths += pathlib.Path(raw_src_dir_path).glob(ext)
     mask_src_paths += pathlib.Path(mask_src_dir_path).glob(ext)
 
-# shuffle raw files
-random.shuffle(raw_src_paths)
-
-
+# shuffle raw files (pseudo random with 420 seed)
+random.Random(420).shuffle(raw_src_paths)
 
 # split raw files
 train = raw_src_paths[:train_split_value]

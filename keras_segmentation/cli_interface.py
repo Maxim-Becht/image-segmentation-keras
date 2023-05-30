@@ -36,6 +36,8 @@ def train_action(command_parser):
     parser.add_argument("--optimizer_name", type=str, default="adam")
 
     parser.add_argument("--ignore_zero_class", action='store_true')
+    
+    parser.add_argument("--enable_tensorboard", action='store_true')
 
     def action(args):
         return train(model=args.model_name,
@@ -56,7 +58,8 @@ def train_action(command_parser):
                      load_weights=args.load_weights,
                      steps_per_epoch=args.steps_per_epoch,
                      optimizer_name=args.optimizer_name, 
-                     ignore_zero_class=args.ignore_zero_class)
+                     ignore_zero_class=args.ignore_zero_class,
+                     enable_tensorboard=args.enable_tensorboard)
 
     parser.set_defaults(func=action)
 

@@ -1,0 +1,198 @@
+{	
+	"cfg_header": {
+		"version": "",
+		"last_changed": ""
+	},
+
+	"model_name": "",
+    "n_classes": 0,
+    "input_height": "null",
+    "input_width": "null",
+	"ignore_zero_class": false,
+	"verify_dataset": true,
+	"checkpoints_path": "null",
+	"read_image_type" : 1, 	 
+	
+    "training": {
+		"train_images": "",
+		"train_annotations": "",
+		"epochs": 5,
+		"steps_per_epoch": 512,
+		"batch_size": 2,
+		"optimizer_name": "adam",
+		"auto_resume_checkpoint": false,
+		"load_weights": "null",
+		
+		"do_augment": false,
+		"augmentation_name": "aug_all",
+		
+		"enable_tensorboard": true,
+		
+		"callbacks": "null",
+		"custom_augmentation": "null",
+		"other_inputs_paths": "null",
+		"preprocessing": "null",
+		
+		"read_image_type": "null",
+		
+		"validate": false,
+		"validation": {
+			"val_images": "",
+			"val_annotations": "",
+			"val_steps_per_epoch": 512,
+			"val_batch_size": 2,
+			"gen_use_multiprocessing": false
+		}
+	},
+    
+	"testing": {
+		"evaluation": {
+			"checkpoints_path": "null",
+			"images_path": "required",
+			"segs_path": "required",
+			"read_image_type": "null"
+		},
+		"prediction": {
+			"checkpoints_path": "null",
+			"input_path": "required",
+			"output_path": "required",
+			"prediction_width": "null",
+			"prediction_height": "null",
+			"overlay_img": false,
+			
+			"show_legends": false,
+			"class_names": [
+				"a", 
+				"b"
+			],
+			"colors": [
+				"default value = null, else:",
+				"(r, g, b)",
+				"(r, g, b)"
+			],
+			
+			"read_image_type": "null"
+		}
+	},
+	
+	"preparation_full": {
+		"n_classes": 0,
+		
+		"verification": {
+			"show_all_errors": false,
+			
+			"verify_train_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"verify_val_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"verify_test_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			}
+		},
+		"visualisation": {
+			"do_augment": false,
+			"augment_name": "aug_all",
+			"custom_aug": "null",
+			
+			"ignore_non_matching": false,
+			"no_show": false,
+			"image_size": "null",
+			
+			"visualize_train_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"visualize_val_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"visualize_test_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			}	
+		}
+	},
+	"preparation_simplified_3": {
+		"n_classes": 0,
+		
+		"verification": {
+			"show_all_errors": false,
+			"relative_root_path": "data/datasets/preparation_simplified_3/",
+			"images_path": "raw/",
+			"segs_path": "labeled/",
+			
+			"train_dir": "",
+			"val_dir": "",
+			"test_dir": ""
+		},
+		"visualisation": {
+			"do_augment": false,
+			"augment_name": "aug_all",
+			"custom_aug": "null",
+			
+			"ignore_non_matching": false,
+			"no_show": false,
+			"image_size": "null",
+			
+			"visualize_train_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"visualize_val_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"visualize_test_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			}	
+		}	
+	},
+	"preparation_simplified": {
+		"n_classes": 0,
+		
+		"verification": {
+			"show_all_errors": false,
+			
+			"verify_train_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"verify_val_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"verify_test_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			}
+		},
+		"visualisation": {
+			"do_augment": false,
+			"augment_name": "aug_all",
+			"custom_aug": "null",
+			
+			"ignore_non_matching": false,
+			"no_show": false,
+			"image_size": "null",
+			
+			"visualize_train_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"visualize_val_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			},
+			"visualize_test_dataset": {
+				"images_path": "required",
+				"segs_path": "required"
+			}	
+		}
+	}
+}

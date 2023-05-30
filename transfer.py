@@ -22,7 +22,7 @@ new_model = model_from_name[model_name](
 new_model.train(
     train_images = "data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/train/raw/",
     train_annotations = "data/datasets/STIHL_SemSeg_Data/color_masks_simplyfied_3/train/labeled/",
-    checkpoints_path = "data/trained/SegNet_VGG16_STIHL_simple_3/v_1/" , 
+    checkpoints_path = "data/trained/SegNet_VGG16_STIHL_simple_3/v_1/", 
     epochs=5,
     ignore_zero_class=True,
     auto_resume_checkpoint=True

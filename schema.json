@@ -1,475 +1,454 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "type": "object",
-    "properties": {
-      "cfg_header": {
-        "type": "object",
-        "default": {},
-        "properties": {
-          "version": {
-            "type": "object",
-            "default": {},
-            "properties": {
-              "major": {
-                "type": "integer",
-                "default": 1
-              },
-              "minor": {
-                "type": "integer",
-                "default": 0
-              },
-              "bug_fix": {
-                "type": "integer",
-                "default": 0
-              }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "cfg_header": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "version": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "major": {
+              "type": "integer",
+              "default": 1
             },
-            "required": [
-              "major",
-              "minor",
-              "bug_fix"
-            ]
+            "minor": {
+              "type": "integer",
+              "default": 0
+            },
+            "bug_fix": {
+              "type": "integer",
+              "default": 0
+            }
           },
-          "model": {
-            "type": "string"
-          },
-          "dataset": {
-            "type": "object",
-            "properties": {
-              "current": {
-                "type": "string"
-              },
-              "history": {
-                "type": "array",
-                "items": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "dataset": {
-                        "type": "string"
-                      },
-                      "cfg_file": {
-                        "type": "string"
-                      }
+          "required": [
+            "major",
+            "minor",
+            "bug_fix"
+          ]
+        },
+        "model": {
+          "type": "string"
+        },
+        "dataset": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "string"
+            },
+            "history": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "dataset": {
+                      "type": "string"
                     },
-                    "required": [
-                      "dataset",
-                      "cfg_file"
-                    ]
-                  }
-                ]
-              }
-            },
-            "required": [
-              "current"
-            ]
+                    "cfg_file": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "dataset",
+                    "cfg_file"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "dataset": {
+                      "type": "string"
+                    },
+                    "cfg_file": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "dataset",
+                    "cfg_file"
+                  ]
+                }
+              ]
+            }
           },
-          "date": {
-            "type": "object",
-            "properties": {
-              "created": {
-                "type": "string"
-              },
-              "last_changed": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "created",
-              "last_changed"
-            ]
-          }
+          "required": [
+            "current",
+            "history"
+          ]
         },
-        "required": [
-          "version",
-          "model",
-          "dataset",
-          "date"
-        ]
-      },
-      "model_name": {
-        "type": "string"
-      },
-      "n_classes": {
-        "type": "integer"
-      },
-      "input_height": {
-        "type": "string"
-      },
-      "input_width": {
-        "type": "string"
-      },
-      "ignore_zero_class": {
-        "type": "boolean",
-        "default": false
-      },
-      "verify_dataset": {
-        "type": "boolean",
-        "default": true
-      },
-      "checkpoints_path": {
-        "type": "string"
-      },
-      "read_image_type": {
-        "type": "integer",
-        "default": 1
-      },
-      "training": {
-        "type": "object",
-        "default": {},
-        "properties": {
-          "train_images": {
-            "type": "string"
-          },
-          "train_annotations": {
-            "type": "string"
-          },
-          "epochs": {
-            "type": "integer",
-            "default": 5
-          },
-          "steps_per_epoch": {
-            "type": "integer",
-            "default": 512
-          },
-          "batch_size": {
-            "type": "integer",
-            "default": 2
-          },
-          "optimizer_name": {
-            "type": "string",
-            "default": "adam"
-          },
-          "auto_resume_checkpoint": {
-            "type": "boolean",
-            "default": false
-          },
-          "load_weights": {
-            "type": "string"
-          },
-          "do_augment": {
-            "type": "boolean",
-            "default": false
-          },
-          "augmentation_name": {
-            "type": "string",
-            "default": "aug_all"
-          },
-          "enable_tensorboard": {
-            "type": "boolean",
-            "default": false
-          },
-          "callbacks": {
-            "type": "string"
-          },
-          "custom_augmentation": {
-            "type": "string"
-          },
-          "other_inputs_paths": {
-            "type": "string"
-          },
-          "preprocessing": {
-            "type": "string"
-          },
-          "read_image_type": {
-            "type": "integer",
-            "default": 1
-          },
-          "validate": {
-            "type": "boolean",
-            "default": false
-          },
-          "validation": {
-            "type": "object",
-            "default": {},
-            "properties": {
-              "val_images": {
-                "type": "string"
-              },
-              "val_annotations": {
-                "type": "string"
-              },
-              "val_steps_per_epoch": {
-                "type": "integer",
-                "default": 512
-              },
-              "val_batch_size": {
-                "type": "integer",
-                "default": 2
-              },
-              "gen_use_multiprocessing": {
-                "type": "boolean",
-                "default": false
-              }
+        "date": {
+          "type": "object",
+          "properties": {
+            "created": {
+              "type": "string"
             },
-            "required": [
-              "val_images",
-              "val_annotations"
-            ]
-          }
-        },
-        "required": [
-          "train_images",
-          "train_annotations",
-          "epochs"
-        ]
-      },
-      "testing": {
-        "type": "object",
-        "properties": {
-          "evaluation": {
-            "type": "object",
-            "properties": {
-              "checkpoints_path": {
-                "type": "string"
-              },
-              "images_path": {
-                "type": "string"
-              },
-              "segs_path": {
-                "type": "string"
-              },
-              "read_image_type": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "checkpoints_path",
-              "images_path",
-              "segs_path"
-            ]
+            "last_changed": {
+              "type": "string"
+            }
           },
-          "prediction": {
-            "type": "object",
-            "properties": {
-              "checkpoints_path": {
-                "type": "string"
-              },
-              "input_path": {
-                "type": "string"
-              },
-              "output_path": {
-                "type": "string"
-              },
-              "prediction_width": {
-                "type": "string"
-              },
-              "prediction_height": {
-                "type": "string"
-              },
-              "overlay_img": {
-                "type": "boolean"
-              },
-              "show_legends": {
-                "type": "boolean"
-              },
-              "class_names": {
-                "type": "array",
-                "items": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "colors": {
-                "type": "array",
-                "items": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "read_image_type": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "checkpoints_path",
-              "input_path",
-              "output_path",
-              "prediction_width",
-              "prediction_height",
-              "overlay_img",
-              "show_legends",
-              "class_names",
-              "colors",
-              "read_image_type"
-            ]
-          }
-        },
-        "required": [
-          "evaluation",
-          "prediction"
-        ]
+          "required": [
+            "created",
+            "last_changed"
+          ]
+        }
       },
-      "preparation": {
-        "type": "object",
-        "properties": {
-          "verification": {
-            "type": "object",
-            "properties": {
-              "show_all_errors": {
-                "type": "boolean"
-              },
-              "verify_train_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "verify_val_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "verify_test_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              }
-            },
-            "required": [
-              "show_all_errors",
-              "verify_train_dataset",
-              "verify_val_dataset",
-              "verify_test_dataset"
-            ]
-          },
-          "visualisation": {
-            "type": "object",
-            "properties": {
-              "do_augment": {
-                "type": "boolean"
-              },
-              "augment_name": {
-                "type": "string"
-              },
-              "custom_aug": {
-                "type": "string"
-              },
-              "ignore_non_matching": {
-                "type": "boolean"
-              },
-              "no_show": {
-                "type": "boolean"
-              },
-              "image_size": {
-                "type": "string"
-              },
-              "visualize_train_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "visualize_val_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "visualize_test_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              }
-            },
-            "required": [
-              "do_augment",
-              "augment_name",
-              "custom_aug",
-              "ignore_non_matching",
-              "no_show",
-              "image_size",
-              "visualize_train_dataset",
-              "visualize_val_dataset",
-              "visualize_test_dataset"
-            ]
-          }
-        },
-        "required": [
-          "verification",
-          "visualisation"
-        ]
-      }
+      "required": [
+        "version",
+        "model",
+        "dataset",
+        "date"
+      ]
     },
-    "required": [
-      "cfg_header",
-      "model_name",
-      "n_classes",
-      "input_height",
-      "input_width",
-      "ignore_zero_class",
-      "verify_dataset",
-      "checkpoints_path",
-      "read_image_type",
-      "training",
-      "testing",
-      "preparation"
-    ]
+    "model_name": {
+      "type": "string"
+    },
+    "n_classes": {
+      "type": "integer"
+    },
+    "input_height": {
+      "type": "integer",
+      "default": null
+    },
+    "input_width": {
+      "type": "integer",
+      "default": null
+    },
+    "ignore_zero_class": {
+      "type": "boolean",
+      "default": false
+    },
+    "verify_dataset": {
+      "type": "boolean",
+      "default": true
+    },
+    "checkpoints_path": {
+      "type": "string"
+    },
+    "read_image_type": {
+      "type": "integer",
+      "default": 1
+    },
+    "training": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "train_images": {
+          "type": "string"
+        },
+        "train_annotations": {
+          "type": "string"
+        },
+        "epochs": {
+          "type": "integer",
+          "default": 5
+        },
+        "steps_per_epoch": {
+          "type": "integer",
+          "default": 512
+        },
+        "batch_size": {
+          "type": "integer",
+          "default": 2
+        },
+        "optimizer_name": {
+          "type": "string",
+          "default": "adam"
+        },
+        "auto_resume_checkpoint": {
+          "type": "boolean",
+          "default": false
+        },
+        "load_weights": {
+          "type": "string",
+          "default": null
+        },
+        "do_augment": {
+          "type": "boolean",
+          "default": false
+        },
+        "augmentation_name": {
+          "type": "string",
+          "default": null
+        },
+        "enable_tensorboard": {
+          "type": "boolean",
+          "default": false
+        },
+        "callbacks": {
+          "type": "string",
+          "default": null
+        },
+        "custom_augmentation": {
+          "type": "string",
+          "default": null
+        },
+        "other_inputs_paths": {
+          "type": "string",
+          "default": null
+        },
+        "preprocessing": {
+          "type": "string",
+          "default": null
+        },
+        "read_image_type": {
+          "type": "integer",
+          "default": 1
+        },
+        "validate": {
+          "type": "boolean",
+          "default": false
+        },
+        "validation": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "val_images": {
+              "type": "string"
+            },
+            "val_annotations": {
+              "type": "string"
+            },
+            "val_steps_per_epoch": {
+              "type": "integer",
+              "default": 512
+            },
+            "val_batch_size": {
+              "type": "integer",
+              "default": 2
+            },
+            "gen_use_multiprocessing": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "val_images",
+            "val_annotations"
+          ]
+        }
+      },
+      "required": [
+        "train_images",
+        "train_annotations"
+      ]
+    },
+    "testing": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "evaluation": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "checkpoints_path": {
+              "type": "string"
+            },
+            "images_path": {
+              "type": "string"
+            },
+            "segs_path": {
+              "type": "string"
+            },
+            "read_image_type": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          "required": [
+            "checkpoints_path",
+            "images_path",
+            "segs_path"
+          ]
+        },
+        "prediction": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "checkpoints_path": {
+              "type": "string"
+            },
+            "input_path": {
+              "type": "string"
+            },
+            "output_path": {
+              "type": "string"
+            },
+            "prediction_width": {
+              "type": "integer",
+              "default": null
+            },
+            "prediction_height": {
+              "type": "integer",
+              "default": null
+            },
+            "overlay_img": {
+              "type": "boolean",
+              "default": false
+            },
+            "show_legends": {
+              "type": "boolean",
+              "default": false
+            },
+            "class_names": {
+              "type": "array",
+              "default": null,
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "colors": {
+              "type": "array",
+              "default": null,
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "read_image_type": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          "required": [
+            "checkpoints_path",
+            "input_path",
+            "output_path"
+          ]
+        }
+      },
+      "required": [
+        "evaluation",
+        "prediction"
+      ]
+    },
+    "preparation": {
+      "type": "object",
+      "default":{},
+      "properties": {
+        "verification": {
+          "type": "object",
+          "default":{},
+          "properties": {
+            "show_all_errors": {
+              "type": "boolean",
+              "default": false
+            },
+            "datasets": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "desc": {
+                      "type": "string"
+                    },
+                    "images_path": {
+                      "type": "string"
+                    },
+                    "segs_path": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "desc",
+                    "images_path",
+                    "segs_path"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "datasets"
+          ]
+        },
+        "visualisation": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "do_augment": {
+              "type": "boolean",
+              "default": false
+            },
+            "augment_name": {
+              "type": "string",
+              "default": "aug_all"
+            },
+            "custom_aug": {
+              "type": "string",
+              "default": null
+            },
+            "ignore_non_matching": {
+              "type": "boolean",
+               "default": false
+            },
+            "no_show": {
+              "type": "boolean",
+              "default": false
+            },
+            "image_size": {
+              "type": "array",
+              "default": null,
+              "items": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "datasets": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "desc": {
+                      "type": "string"
+                    },
+                    "images_path": {
+                      "type": "string"
+                    },
+                    "segs_path": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "desc",
+                    "images_path",
+                    "segs_path"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "datasets"
+          ]
+        }
+      },
+      "required": [
+        "verification",
+        "visualisation"
+      ]
+    }
+  },
+  "required": [
+    "cfg_header",
+    "model_name",
+    "n_classes",
+    "input_height",
+    "input_width",
+    "checkpoints_path",
+    "training",
+    "testing",
+    "preparation"
+  ]
 }

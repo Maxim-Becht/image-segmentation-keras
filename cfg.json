@@ -5,15 +5,15 @@
 			"minor": 0,
 			"bug_fix": 0
 		},
-		"model": "segnet",
+		"model": "",
 		"dataset": {
-			"current": "stihl_2",
+			"current": "",
 			"history": [{
-				"dataset":"stihl",
-				"cfg_file":"stihl-segnet-1.0.0.json"
+				"dataset":"",
+				"cfg_file":""
 			}, {
-				"dataset":"stihl_3", 
-				"cfg_file":"stihl_3-segnet-1.0.0.json"
+				"dataset":"", 
+				"cfg_file":""
 			}]
 		},
 		"date":{
@@ -22,13 +22,13 @@
 		}
 	},
 
-	"model_name": "segnet",
+	"model_name": "",
     "n_classes": 0,
-    "input_height": "null",
-    "input_width": "null",
+    "input_height": 0,
+    "input_width": 0,
 	"ignore_zero_class": false,
 	"verify_dataset": true,
-	"checkpoints_path": "null",
+	"checkpoints_path": "",
 	"read_image_type" : 1, 	 
 	
     "training": {
@@ -39,17 +39,17 @@
 		"batch_size": 2,
 		"optimizer_name": "adam",
 		"auto_resume_checkpoint": false,
-		"load_weights": "null",
+		"load_weights": "",
 		
 		"do_augment": false,
 		"augmentation_name": "aug_all",
 		
 		"enable_tensorboard": true,
 		
-		"callbacks": "null",
-		"custom_augmentation": "null",
-		"other_inputs_paths": "null",
-		"preprocessing": "null",
+		"callbacks": "",
+		"custom_augmentation": "",
+		"other_inputs_paths": "",
+		"preprocessing": "",
 		
 		"read_image_type": 1,
 		
@@ -65,31 +65,28 @@
     
 	"testing": {
 		"evaluation": {
-			"checkpoints_path": "null",
-			"images_path": "required",
-			"segs_path": "required",
-			"read_image_type": "null"
+			"checkpoints_path": "",
+			"images_path": "",
+			"segs_path": "",
+			"read_image_type": 1
 		},
 		"prediction": {
-			"checkpoints_path": "null",
-			"input_path": "required",
-			"output_path": "required",
-			"prediction_width": "null",
-			"prediction_height": "null",
+			"checkpoints_path": "",
+			"input_path": "",
+			"output_path": "",
+			"prediction_width": 0,
+			"prediction_height": 0,
 			"overlay_img": false,
 			
 			"show_legends": false,
 			"class_names": [
-				"a", 
-				"b"
+				""
 			],
 			"colors": [
-				"default value = null, else:",
-				"(r, g, b)",
-				"(r, g, b)"
+				""
 			],
 			
-			"read_image_type": "null"
+			"read_image_type": 1
 		}
 	},
 	
@@ -97,40 +94,26 @@
 		"verification": {
 			"show_all_errors": false,
 			
-			"verify_train_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"verify_val_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"verify_test_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			}
+			"datasets": [{
+					"desc": "",
+					"images_path": "",
+					"segs_path": ""
+				}]
 		},
 		"visualisation": {
 			"do_augment": false,
 			"augment_name": "aug_all",
-			"custom_aug": "null",
+			"custom_aug": "",
 			
 			"ignore_non_matching": false,
 			"no_show": false,
-			"image_size": "null",
-			
-			"visualize_train_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"visualize_val_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"visualize_test_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			}	
+			"image_size": "",
+
+			"datasets": [{
+				"desc": "",
+				"images_path": "",
+				"segs_path": ""
+			}]	
 		}
 	}
 }

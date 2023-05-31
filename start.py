@@ -6,6 +6,10 @@ import tkinter as tk
 from tkinter import TclError, ttk, filedialog, messagebox
 
 from keras_segmentation.train import train
+from keras_segmentation.predict import predict, predict_multiple, evaluate
+from keras_segmentation.data_utils.data_loader import verify_segmentation_dataset
+from keras_segmentation.data_utils.visualize_dataset import visualize_segmentation_dataset
+
 from keras_segmentation.models.all_models import model_from_name
 from keras_segmentation.models.model_utils import transfer_weights
 
@@ -83,11 +87,11 @@ def create_button_frame(container):
 
     frame.columnconfigure(0, weight=1)
 
-    ttk.Button(frame, text='Verificate Datasets').grid(column=0, row=0)
-    ttk.Button(frame, text='Visualize Datasets').grid(column=0, row=1)
+    ttk.Button(frame, text='Verificate Datasets', command=start_dataset_verification_CALLBACK).grid(column=0, row=0)
+    ttk.Button(frame, text='Visualize Datasets', command=start_dataset_visualization_CALLBACK).grid(column=0, row=1)
     ttk.Button(frame, text='Start Training', command=start_training_CALLBACK).grid(column=0, row=2)
-    ttk.Button(frame, text='Start Evaluation').grid(column=0, row=3)
-    ttk.Button(frame, text='Start Prediction').grid(column=0, row=4)
+    ttk.Button(frame, text='Start Evaluation', command=start_evaluation_CALLBACK).grid(column=0, row=3)
+    ttk.Button(frame, text='Start Prediction', command=start_prediction_CALLBACK).grid(column=0, row=4)
     ttk.Button(frame, text='Cancel').grid(column=0, row=5)
 
     for widget in frame.winfo_children():
@@ -222,7 +226,8 @@ def extend_with_default(validator_class):
 
 def start_training_CALLBACK():
     
-    cfg_header = json_cfg["cfg_header"]
+    #cfg_header = json_cfg["cfg_header"]
+    # todo: add header name to writer of TensorBoard file naming
     cfg_training = json_cfg["training"]
     cfg_training_val = cfg_training["validation"]
 
@@ -270,6 +275,101 @@ def start_training_CALLBACK():
         enable_tensorboard=cfg_training["enable_tensorboard"]
     )
 
+def start_dataset_verification_CALLBACK():
+
+    cfg_preparation = json_cfg["preparation"]
+    cfg_verification = cfg_preparation["verification"]
+    datasets =  cfg_verification["datasets"]
+
+    for dataset in datasets:
+        verify_segmentation_dataset (
+            images_path = dataset["images_path"],
+            segs_path = dataset["segs_path"],
+            show_all_errors = cfg_verification["show_all_errors"]
+        )
+
+def start_dataset_visualization_CALLBACK():
+
+    cfg_preparation = json_cfg["preparation"]
+    cfg_visualisation = cfg_preparation["visualisation"]
+    datasets =  cfg_visualisation["datasets"]
+
+    for dataset in datasets:
+        visualize_segmentation_dataset (
+            images_path=dataset["images_path"],
+            segs_path=dataset["segs_path"],
+            do_augment = cfg_visualisation["do_augment"],
+            augment_name = cfg_visualisation["augment_name"],
+            custom_aug = cfg_visualisation["custom_aug"],
+            ignore_non_matching = cfg_visualisation["ignore_non_matching"],
+			no_show = cfg_visualisation["no_show"],
+			image_size = cfg_visualisation["image_size"]
+        )
+
+def start_evaluation_CALLBACK():
+
+    cfg_testing = json_cfg["testing"]
+    cfg_evaluation = cfg_testing["evaluation"]
+
+    checkpoints_path = json_cfg["checkpoints_path"]
+    if cfg_evaluation["checkpoints_path"]:
+        checkpoints_path = cfg_evaluation["checkpoints_path"]
+
+    evaluate (
+        checkpoints_path = checkpoints_path,
+	    images_path = cfg_evaluation["images_path"],
+		segs_path = cfg_evaluation["segs_path"],
+		read_image_type = cfg_evaluation["read_image_type"]
+    )
+
+def start_prediction_CALLBACK():
+
+    cfg_testing = json_cfg["testing"]
+    cfg_prediction = cfg_testing["prediction"]
+
+    checkpoints_path = json_cfg["checkpoints_path"]
+    if cfg_prediction["checkpoints_path"]:
+        checkpoints_path = cfg_prediction["checkpoints_path"]
+
+    input_path = cfg_prediction["input_path"]
+    input_path_extension = input_path.split('.')[-1]
+    output_path = cfg_prediction["output_path"]
+    prediction_width = cfg_prediction["prediction_width"]
+    prediction_height = cfg_prediction["prediction_height"]
+    overlay_img = cfg_prediction["overlay_img"]
+    show_legends = cfg_prediction["show_legends"]
+    class_names = cfg_prediction["class_names"]
+    colors = cfg_prediction["colors"]
+    read_image_type = cfg_prediction["read_image_type"]
+
+    if input_path_extension in ['jpg', 'jpeg', 'png']:
+        return predict (
+                inp=input_path, 
+                out_fname=output_path,
+                checkpoints_path=checkpoints_path,
+                prediction_width=prediction_width,
+                prediction_height=prediction_height,
+                overlay_img=overlay_img,
+                show_legends=show_legends,
+                class_names=class_names,
+                colors=colors,
+                read_image_type=read_image_type
+            )
+    else:
+        return predict_multiple (
+                inp=input_path, 
+                out_fname=output_path,
+                checkpoints_path=checkpoints_path,
+                prediction_width=prediction_width,
+                prediction_height=prediction_height,
+                overlay_img=overlay_img,
+                show_legends=show_legends,
+                class_names=class_names,
+                colors=colors,
+                read_image_type=read_image_type
+            )
+    
+
 def create_cfg_filename():
     if not json_cfg:
         messagebox.showerror("ERROR", "json_cfg not set")
@@ -281,7 +381,7 @@ def create_cfg_filename():
     cfg_header = json_cfg["cfg_header"]
     version = cfg_header["version"]
     version_string = "{major}.{minor}.{bug_fix}".format(major=str(version["major"]), minor=str(version["minor"]), bug_fix=str(version["bug_fix"]))
-    cfg_name = "{current_dataset}_{model}_{version}.json".format(current_dataset=cfg_header["dataset"]["current"], model=cfg_header["model"], version=version_string)
+    cfg_name = "{current_dataset}-{model}-{version}.json".format(current_dataset=cfg_header["dataset"]["current"], model=cfg_header["model"], version=version_string)
     return cfg_name
 
 def auto_rename_cfg_file():

@@ -68,7 +68,7 @@
 			"checkpoints_path": "null",
 			"images_path": "required",
 			"segs_path": "required",
-			"read_image_type": "null"
+			"read_image_type": 1
 		},
 		"prediction": {
 			"checkpoints_path": "null",
@@ -80,16 +80,13 @@
 			
 			"show_legends": false,
 			"class_names": [
-				"a", 
-				"b"
+				"null"
 			],
 			"colors": [
-				"default value = null, else:",
-				"(r, g, b)",
-				"(r, g, b)"
+				"null"
 			],
 			
-			"read_image_type": "null"
+			"read_image_type": 1
 		}
 	},
 	
@@ -97,18 +94,19 @@
 		"verification": {
 			"show_all_errors": false,
 			
-			"verify_train_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"verify_val_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"verify_test_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			}
+			"datasets": [{
+					"desc": "verify train dataset",
+					"images_path": "required",
+					"segs_path": "required"
+				}, {
+					"desc": "verify val dataset",
+					"images_path": "required",
+					"segs_path": "required"
+				}, {
+					"desc": "verify test dataset",
+					"images_path": "required",
+					"segs_path": "required"
+				}]
 		},
 		"visualisation": {
 			"do_augment": false,
@@ -118,19 +116,20 @@
 			"ignore_non_matching": false,
 			"no_show": false,
 			"image_size": "null",
-			
-			"visualize_train_dataset": {
+
+			"datasets": [{
+				"desc": "visualize train dataset",
 				"images_path": "required",
 				"segs_path": "required"
-			},
-			"visualize_val_dataset": {
+			}, {
+				"desc": "visualize val dataset",
 				"images_path": "required",
 				"segs_path": "required"
-			},
-			"visualize_test_dataset": {
+			}, {
+				"desc": "visualize test dataset",
 				"images_path": "required",
 				"segs_path": "required"
-			}	
+			}]	
 		}
 	}
 }

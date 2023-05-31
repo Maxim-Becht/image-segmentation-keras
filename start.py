@@ -329,12 +329,12 @@ def start_evaluation_CALLBACK():
     if cfg_evaluation.get("checkpoints_path") is not None:
         checkpoints_path = cfg_evaluation["checkpoints_path"]
 
-    evaluate (
+    print(
+        evaluate (
         checkpoints_path = checkpoints_path,
-	    images_path = cfg_evaluation["images_path"],
-		segs_path = cfg_evaluation["segs_path"],
-		read_image_type = cfg_evaluation["read_image_type"]
-    )
+	    inp_images_dir = cfg_evaluation["images_path"],
+		annotations_dir = cfg_evaluation["segs_path"],
+		read_image_type = cfg_evaluation["read_image_type"]))
 
 def start_prediction_CALLBACK():
 

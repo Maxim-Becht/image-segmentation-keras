@@ -4,21 +4,86 @@
     "properties": {
       "cfg_header": {
         "type": "object",
+        "default": {},
         "properties": {
-          "name": {
-            "type": "string"
-          },
           "version": {
+            "type": "object",
+            "default": {},
+            "properties": {
+              "major": {
+                "type": "integer",
+                "default": 1
+              },
+              "minor": {
+                "type": "integer",
+                "default": 0
+              },
+              "bug_fix": {
+                "type": "integer",
+                "default": 0
+              }
+            },
+            "required": [
+              "major",
+              "minor",
+              "bug_fix"
+            ]
+          },
+          "model": {
             "type": "string"
           },
-          "last_changed": {
-            "type": "string"
+          "dataset": {
+            "type": "object",
+            "properties": {
+              "current": {
+                "type": "string"
+              },
+              "history": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "dataset": {
+                        "type": "string"
+                      },
+                      "cfg_file": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "dataset",
+                      "cfg_file"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "current"
+            ]
+          },
+          "date": {
+            "type": "object",
+            "properties": {
+              "created": {
+                "type": "string"
+              },
+              "last_changed": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "created",
+              "last_changed"
+            ]
           }
         },
         "required": [
-          "name",
           "version",
-          "last_changed"
+          "model",
+          "dataset",
+          "date"
         ]
       },
       "model_name": {

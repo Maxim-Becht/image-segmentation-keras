@@ -1,4 +1,5 @@
 import json, jsonschema
+import os
 from jsonschema import Draft4Validator, validators
 from pathlib import Path
 import tkinter as tk
@@ -46,8 +47,11 @@ def create_input_frame(container):
     ttk.Button(frame, text='set', command=lambda: choose_json_cfg_path_CALLBACK()).grid(column=2, row=0)
     ttk.Button(frame, text='set', command=lambda: choose_json_schema_path_CALLBACK()).grid(column=2, row=1)
 
-    # validate json file
+    # validate json cfg file
     ttk.Button(frame, text='Validate JSON cfg', command=lambda: validate_json_CALLBACK()).grid(column=1, row=2)
+
+    # rename json cfg file
+    ttk.Button(frame, text='Auto Rename JSON cfg', command=lambda: auto_rename_cfg_file_CALLBACK()).grid(column=1, row=3)
 
     # Enable TensorBoard checkbox
     global enable_tensorboard_overwrite 
@@ -94,7 +98,7 @@ def create_button_frame(container):
 
 def create_main_window():
     root = tk.Tk()
-    root.title('Replace')
+    root.title('UI Controller')
     root.resizable(0, 0)
     try:
         # windows only (remove the minimize/maximize button)
@@ -126,11 +130,13 @@ def choose_json_schema_path():
     return schema_path
 
 def choose_json_cfg_path_CALLBACK():
+    global json_cfg_path
     global json_cfg
     json_cfg_path = choose_json_cfg_path()
     json_cfg = load_json_cfg_file(json_cfg_path)
 
 def choose_json_schema_path_CALLBACK():
+    global json_schema_path
     global json_schema
     json_schema_path = choose_json_schema_path()
     json_schema = load_json_schema_file(json_schema_path)
@@ -146,6 +152,9 @@ def validate_json_CALLBACK():
 
     validate_json(json_cfg, json_schema)
 
+def auto_rename_cfg_file_CALLBACK():
+    auto_rename_cfg_file()
+    
 
 def load_json_cfg_file(cfg_path):
     json_cfg = {}
@@ -153,7 +162,7 @@ def load_json_cfg_file(cfg_path):
     # Opening JSON file
     with open(cfg_path) as json_file:
         json_cfg = json.load(json_file)
-        return json_cfg
+    return json_cfg
     
 def load_json_schema_file(schema_path):
     json_schema={}
@@ -161,7 +170,7 @@ def load_json_schema_file(schema_path):
     # Opening JSON schema file
     with open(schema_path) as json_schema_file:
         json_schema = json.load(json_schema_file)
-        return json_schema
+    return json_schema
 
 
 def validate_json(json_cfg, json_schema):
@@ -184,8 +193,6 @@ def validate_json(json_cfg, json_schema):
 
     DefaultValidatingValidator = extend_with_default(Draft4Validator)
     DefaultValidatingValidator(json_schema).validate(json_cfg)
-
-    print("name", json_cfg["cfg_header"]["name"])
 
     # re-validate, after potentially adding default values, since default values have to be validated too (type faults)
     jsonschema.validate(
@@ -218,8 +225,6 @@ def start_training_CALLBACK():
     cfg_header = json_cfg["cfg_header"]
     cfg_training = json_cfg["training"]
     cfg_training_val = cfg_training["validation"]
-
-    cfg_name = cfg_header["name"]
 
     # UI driven design:
     # enable_tensorboard = bool(enable_tensorboard_overwrite)
@@ -265,9 +270,36 @@ def start_training_CALLBACK():
         enable_tensorboard=cfg_training["enable_tensorboard"]
     )
 
+def create_cfg_filename():
+    if not json_cfg:
+        messagebox.showerror("ERROR", "json_cfg not set")
+        return
+    if not json_cfg["cfg_header"]:
+        messagebox.showerror("ERROR", "cfg_header in json_cfg not set")
+        return
 
-    # replacement = ttk.Entry(frame, width=30)
-    # replacement.grid(column=1, row=1, sticky=tk.W)
+    cfg_header = json_cfg["cfg_header"]
+    version = cfg_header["version"]
+    version_string = "{major}.{minor}.{bug_fix}".format(major=str(version["major"]), minor=str(version["minor"]), bug_fix=str(version["bug_fix"]))
+    cfg_name = "{current_dataset}_{model}_{version}.json".format(current_dataset=cfg_header["dataset"]["current"], model=cfg_header["model"], version=version_string)
+    return cfg_name
+
+def auto_rename_cfg_file():
+    new_cfg_name = create_cfg_filename()
+    if new_cfg_name and json_cfg_path != "":
+        new_json_cfg_path = Path.joinpath(Path(json_cfg_path).parent, new_cfg_name)
+        os.rename(json_cfg_path, new_json_cfg_path)
+
+
+
+
+
+
+
+
+
+# replacement = ttk.Entry(frame, width=30)
+# replacement.grid(column=1, row=1, sticky=tk.W)
 
 
 # def main():

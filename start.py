@@ -4,6 +4,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import TclError, ttk, filedialog, messagebox
 
+from keras_segmentation.train import train
 from keras_segmentation.models.all_models import model_from_name
 from keras_segmentation.models.model_utils import transfer_weights
 
@@ -12,6 +13,7 @@ json_cfg_path = ""
 json_cfg = {}
 json_schema_path = ""
 json_schema = {}
+enable_tensorboard_overwrite = False
 
 
 def write_textbox(textbox, text):
@@ -48,12 +50,13 @@ def create_input_frame(container):
     ttk.Button(frame, text='Validate JSON cfg', command=lambda: validate_json_CALLBACK()).grid(column=1, row=2)
 
     # Enable TensorBoard checkbox
-    match_case = tk.StringVar(value=1)
+    global enable_tensorboard_overwrite 
+    enable_tensorboard_overwrite = tk.StringVar(value=1)
     match_case_check = ttk.Checkbutton(
         frame,
         text='Enable TensorBoard',
-        variable=match_case,
-        command=lambda: print(match_case.get()))
+        variable=enable_tensorboard_overwrite,
+        command=lambda: print(enable_tensorboard_overwrite.get()))
     match_case_check.grid(column=0, row=2, sticky=tk.W)
 
     # Enable Validation checkbox
@@ -78,7 +81,7 @@ def create_button_frame(container):
 
     ttk.Button(frame, text='Verificate Datasets').grid(column=0, row=0)
     ttk.Button(frame, text='Visualize Datasets').grid(column=0, row=1)
-    ttk.Button(frame, text='Start Training').grid(column=0, row=2)
+    ttk.Button(frame, text='Start Training', command=start_training_CALLBACK).grid(column=0, row=2)
     ttk.Button(frame, text='Start Evaluation').grid(column=0, row=3)
     ttk.Button(frame, text='Start Prediction').grid(column=0, row=4)
     ttk.Button(frame, text='Cancel').grid(column=0, row=5)
@@ -184,6 +187,12 @@ def validate_json(json_cfg, json_schema):
 
     print("name", json_cfg["cfg_header"]["name"])
 
+    # re-validate, after potentially adding default values, since default values have to be validated too (type faults)
+    jsonschema.validate(
+        instance=json_cfg,
+        schema=json_schema,
+    )
+
 
 def extend_with_default(validator_class):
     validate_properties = validator_class.VALIDATORS["properties"]
@@ -203,6 +212,58 @@ def extend_with_default(validator_class):
     )
 
 
+
+def start_training_CALLBACK():
+    
+    cfg_header = json_cfg["cfg_header"]
+    cfg_training = json_cfg["training"]
+    cfg_training_val = cfg_training["validation"]
+
+    cfg_name = cfg_header["name"]
+
+    # UI driven design:
+    # enable_tensorboard = bool(enable_tensorboard_overwrite)
+
+    # overwrite global cfg
+    read_image_type = 1
+    if cfg_training["read_image_type"]:
+        read_image_type = cfg_training["read_image_type"]
+
+
+    train (
+        model = json_cfg["model_name"],
+        train_images = cfg_training["train_images"],
+        train_annotations = cfg_training["train_annotations"],
+        input_height = json_cfg["input_height"],
+        input_width = json_cfg["input_width"],
+        n_classes = json_cfg["n_classes"],
+        verify_dataset = json_cfg["verify_dataset"],
+        checkpoints_path = json_cfg["checkpoints_path"],
+        epochs = cfg_training["epochs"],
+        batch_size = cfg_training["batch_size"],
+        validate = cfg_training["validate"],
+        val_images = cfg_training_val["val_images"],
+        val_annotations = cfg_training_val["val_annotations"],
+        val_batch_size = cfg_training_val["val_batch_size"],
+        auto_resume_checkpoint = cfg_training["auto_resume_checkpoint"],
+        load_weights = cfg_training["load_weights"],
+        steps_per_epoch = cfg_training["steps_per_epoch"],
+        val_steps_per_epoch = cfg_training_val["val_steps_per_epoch"],
+        gen_use_multiprocessing = cfg_training_val["gen_use_multiprocessing"],
+        ignore_zero_class = json_cfg["ignore_zero_class"],
+        optimizer_name = cfg_training["optimizer_name"],
+        do_augment = cfg_training["do_augment"],
+        augmentation_name = cfg_training["augmentation_name"],
+        callbacks = cfg_training["callbacks"],
+        custom_augmentation = cfg_training["custom_augmentation"],
+        other_inputs_paths = cfg_training["other_inputs_paths"],
+        preprocessing = cfg_training["preprocessing"],
+        read_image_type = read_image_type,      
+                                # cv2.IMREAD_COLOR = 1 (rgb),
+                                # cv2.IMREAD_GRAYSCALE = 0,
+                                # cv2.IMREAD_UNCHANGED = -1 (4 channels like RGBA)
+        enable_tensorboard=cfg_training["enable_tensorboard"]
+    )
 
 
     # replacement = ttk.Entry(frame, width=30)

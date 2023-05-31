@@ -1,10 +1,11 @@
 {	
 	"cfg_header": {
+		"name": "",
 		"version": "",
 		"last_changed": ""
 	},
 
-	"model_name": "",
+	"model_name": "segnet",
     "n_classes": 0,
     "input_height": "null",
     "input_width": "null",
@@ -33,7 +34,7 @@
 		"other_inputs_paths": "null",
 		"preprocessing": "null",
 		
-		"read_image_type": "null",
+		"read_image_type": 1,
 		
 		"validate": false,
 		"validation": {
@@ -75,87 +76,7 @@
 		}
 	},
 	
-	"preparation_full": {
-		"n_classes": 0,
-		
-		"verification": {
-			"show_all_errors": false,
-			
-			"verify_train_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"verify_val_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"verify_test_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			}
-		},
-		"visualisation": {
-			"do_augment": false,
-			"augment_name": "aug_all",
-			"custom_aug": "null",
-			
-			"ignore_non_matching": false,
-			"no_show": false,
-			"image_size": "null",
-			
-			"visualize_train_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"visualize_val_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"visualize_test_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			}	
-		}
-	},
-	"preparation_simplified_3": {
-		"n_classes": 0,
-		
-		"verification": {
-			"show_all_errors": false,
-			"relative_root_path": "data/datasets/preparation_simplified_3/",
-			"images_path": "raw/",
-			"segs_path": "labeled/",
-			
-			"train_dir": "",
-			"val_dir": "",
-			"test_dir": ""
-		},
-		"visualisation": {
-			"do_augment": false,
-			"augment_name": "aug_all",
-			"custom_aug": "null",
-			
-			"ignore_non_matching": false,
-			"no_show": false,
-			"image_size": "null",
-			
-			"visualize_train_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"visualize_val_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			},
-			"visualize_test_dataset": {
-				"images_path": "required",
-				"segs_path": "required"
-			}	
-		}	
-	},
-	"preparation_simplified": {
-		"n_classes": 0,
-		
+	"preparation": {		
 		"verification": {
 			"show_all_errors": false,
 			

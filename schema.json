@@ -6,8 +6,7 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "default": "test"
+            "type": "string"
           },
           "version": {
             "type": "string"
@@ -16,7 +15,6 @@
             "type": "string"
           }
         },
-        "default": {},
         "required": [
           "name",
           "version",
@@ -36,19 +34,23 @@
         "type": "string"
       },
       "ignore_zero_class": {
-        "type": "boolean"
+        "type": "boolean",
+        "default": false
       },
       "verify_dataset": {
-        "type": "boolean"
+        "type": "boolean",
+        "default": true
       },
       "checkpoints_path": {
         "type": "string"
       },
       "read_image_type": {
-        "type": "integer"
+        "type": "integer",
+        "default": 1
       },
       "training": {
         "type": "object",
+        "default": {},
         "properties": {
           "train_images": {
             "type": "string"
@@ -57,31 +59,39 @@
             "type": "string"
           },
           "epochs": {
-            "type": "integer"
+            "type": "integer",
+            "default": 5
           },
           "steps_per_epoch": {
-            "type": "integer"
+            "type": "integer",
+            "default": 512
           },
           "batch_size": {
-            "type": "integer"
+            "type": "integer",
+            "default": 2
           },
           "optimizer_name": {
-            "type": "string"
+            "type": "string",
+            "default": "adam"
           },
           "auto_resume_checkpoint": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": false
           },
           "load_weights": {
             "type": "string"
           },
           "do_augment": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": false
           },
           "augmentation_name": {
-            "type": "string"
+            "type": "string",
+            "default": "aug_all"
           },
           "enable_tensorboard": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": false
           },
           "callbacks": {
             "type": "string"
@@ -96,13 +106,16 @@
             "type": "string"
           },
           "read_image_type": {
-            "type": "string"
+            "type": "integer",
+            "default": 1
           },
           "validate": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": false
           },
           "validation": {
             "type": "object",
+            "default": {},
             "properties": {
               "val_images": {
                 "type": "string"
@@ -111,43 +124,28 @@
                 "type": "string"
               },
               "val_steps_per_epoch": {
-                "type": "integer"
+                "type": "integer",
+                "default": 512
               },
               "val_batch_size": {
-                "type": "integer"
+                "type": "integer",
+                "default": 2
               },
               "gen_use_multiprocessing": {
-                "type": "boolean"
+                "type": "boolean",
+                "default": false
               }
             },
             "required": [
               "val_images",
-              "val_annotations",
-              "val_steps_per_epoch",
-              "val_batch_size",
-              "gen_use_multiprocessing"
+              "val_annotations"
             ]
           }
         },
         "required": [
           "train_images",
           "train_annotations",
-          "epochs",
-          "steps_per_epoch",
-          "batch_size",
-          "optimizer_name",
-          "auto_resume_checkpoint",
-          "load_weights",
-          "do_augment",
-          "augmentation_name",
-          "enable_tensorboard",
-          "callbacks",
-          "custom_augmentation",
-          "other_inputs_paths",
-          "preprocessing",
-          "read_image_type",
-          "validate",
-          "validation"
+          "epochs"
         ]
       },
       "testing": {
@@ -172,8 +170,7 @@
             "required": [
               "checkpoints_path",
               "images_path",
-              "segs_path",
-              "read_image_type"
+              "segs_path"
             ]
           },
           "prediction": {
@@ -248,12 +245,9 @@
           "prediction"
         ]
       },
-      "preparation_full": {
+      "preparation": {
         "type": "object",
         "properties": {
-          "n_classes": {
-            "type": "integer"
-          },
           "verification": {
             "type": "object",
             "properties": {
@@ -394,285 +388,6 @@
           }
         },
         "required": [
-          "n_classes",
-          "verification",
-          "visualisation"
-        ]
-      },
-      "preparation_simplified_3": {
-        "type": "object",
-        "properties": {
-          "n_classes": {
-            "type": "integer"
-          },
-          "verification": {
-            "type": "object",
-            "properties": {
-              "show_all_errors": {
-                "type": "boolean"
-              },
-              "relative_root_path": {
-                "type": "string"
-              },
-              "images_path": {
-                "type": "string"
-              },
-              "segs_path": {
-                "type": "string"
-              },
-              "train_dir": {
-                "type": "string"
-              },
-              "val_dir": {
-                "type": "string"
-              },
-              "test_dir": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "show_all_errors",
-              "relative_root_path",
-              "images_path",
-              "segs_path",
-              "train_dir",
-              "val_dir",
-              "test_dir"
-            ]
-          },
-          "visualisation": {
-            "type": "object",
-            "properties": {
-              "do_augment": {
-                "type": "boolean"
-              },
-              "augment_name": {
-                "type": "string"
-              },
-              "custom_aug": {
-                "type": "string"
-              },
-              "ignore_non_matching": {
-                "type": "boolean"
-              },
-              "no_show": {
-                "type": "boolean"
-              },
-              "image_size": {
-                "type": "string"
-              },
-              "visualize_train_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "visualize_val_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "visualize_test_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              }
-            },
-            "required": [
-              "do_augment",
-              "augment_name",
-              "custom_aug",
-              "ignore_non_matching",
-              "no_show",
-              "image_size",
-              "visualize_train_dataset",
-              "visualize_val_dataset",
-              "visualize_test_dataset"
-            ]
-          }
-        },
-        "required": [
-          "n_classes",
-          "verification",
-          "visualisation"
-        ]
-      },
-      "preparation_simplified": {
-        "type": "object",
-        "properties": {
-          "n_classes": {
-            "type": "integer"
-          },
-          "verification": {
-            "type": "object",
-            "properties": {
-              "show_all_errors": {
-                "type": "boolean"
-              },
-              "verify_train_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "verify_val_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "verify_test_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              }
-            },
-            "required": [
-              "show_all_errors",
-              "verify_train_dataset",
-              "verify_val_dataset",
-              "verify_test_dataset"
-            ]
-          },
-          "visualisation": {
-            "type": "object",
-            "properties": {
-              "do_augment": {
-                "type": "boolean"
-              },
-              "augment_name": {
-                "type": "string"
-              },
-              "custom_aug": {
-                "type": "string"
-              },
-              "ignore_non_matching": {
-                "type": "boolean"
-              },
-              "no_show": {
-                "type": "boolean"
-              },
-              "image_size": {
-                "type": "string"
-              },
-              "visualize_train_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "visualize_val_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              },
-              "visualize_test_dataset": {
-                "type": "object",
-                "properties": {
-                  "images_path": {
-                    "type": "string"
-                  },
-                  "segs_path": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "images_path",
-                  "segs_path"
-                ]
-              }
-            },
-            "required": [
-              "do_augment",
-              "augment_name",
-              "custom_aug",
-              "ignore_non_matching",
-              "no_show",
-              "image_size",
-              "visualize_train_dataset",
-              "visualize_val_dataset",
-              "visualize_test_dataset"
-            ]
-          }
-        },
-        "required": [
-          "n_classes",
           "verification",
           "visualisation"
         ]
@@ -690,8 +405,6 @@
       "read_image_type",
       "training",
       "testing",
-      "preparation_full",
-      "preparation_simplified_3",
-      "preparation_simplified"
+      "preparation"
     ]
-  }
+}

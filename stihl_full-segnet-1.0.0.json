@@ -1,0 +1,173 @@
+{	
+	"cfg_header": {
+		"version": {
+			"major": 1,
+			"minor": 0,
+			"bug_fix": 0
+		},
+		"model": "segnet",
+		"dataset": {
+			"current": "stihl_full"
+		},
+		"date":{
+			"created": "2023-05-31",
+			"last_changed": "2023-05-31"
+		}
+	},
+
+	"model_name": "segnet",
+    "n_classes": 23,
+    "input_height": 480,
+    "input_width": 640,
+	"ignore_zero_class": true,
+	"verify_dataset": true,
+	"checkpoints_path": "data\\trained_models\\stihl_full-segnet-1.0.0\\checkpoints\\",
+	"read_image_type" : 1, 	 
+	
+    "training": {
+		"train_images": "data/datasets/STIHL_SemSeg_Data/color_masks/train/raw/",
+		"train_annotations": "data/datasets/STIHL_SemSeg_Data/color_masks/train/labeled/",
+		"epochs": 5,
+		"steps_per_epoch": 512,
+		"batch_size": 2,
+		"optimizer_name": "adam",
+		"auto_resume_checkpoint": true,
+		"enable_tensorboard": true,
+		
+		"validate": true,
+		"validation": {
+			"val_images": "data/datasets/STIHL_SemSeg_Data/color_masks/val/raw/",
+			"val_annotations": "data/datasets/STIHL_SemSeg_Data/color_masks/val/labeled/",
+			"val_steps_per_epoch": 512,
+			"val_batch_size": 2,
+			"gen_use_multiprocessing": false
+		}
+	},
+    
+	"testing": {
+		"evaluation": {
+			"images_path": "data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/",
+			"segs_path": "data/datasets/STIHL_SemSeg_Data/color_masks/test/labeled/",
+			"read_image_type": 1
+		},
+		"prediction": {
+			"input_path": "data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/",
+			"output_path": "data/trained_models/stihl_full-segnet-1.0.0/predictions/5-epochs/",
+			"overlay_img": false,
+			"show_legends": false,
+			"class_names": [
+				"Unlabeled",
+				"Lawn",
+				"NaturalGround",
+				"Boundary:Wall",
+				"Boundary:Fence",
+				"Boundary:Hedge",
+				"Boundary:Building",
+				"GenericObject",
+				"Vegetation",
+				"Ego",
+				"Sky",
+				"DockingStation",
+				"DockingPad",
+				"ArtificialGround",
+				"ArtificialFlatObject",
+				"iMOW",
+				"Tool",
+				"Human:Adult",
+				"Human:Child",
+				"Distortion",
+				"NaturalFlatObject",
+				"Animal:Dog",
+				"Furniture"
+			],
+			"colors": [
+				[
+					0,0,0
+				],[
+					0,255,0
+				],[
+					0,255,255
+				],[
+					64,64,64
+				],[
+					148,94,37
+				],[
+					78,148,37
+				],[
+					78,148,10
+				],[
+					0,64,255
+				],[
+					0,128,0
+				],[
+					255,255,0
+				],[
+					0,128,255
+				],[
+					255,0,0
+				],[
+					128,0,0
+				],[
+					128,128,128
+				],[
+					255,0,128
+				],[
+					255,128,0
+				],[
+					64,64,0
+				],[
+					255,10,10
+				],[
+					255,20,20
+				],[
+					255,255,255
+				],[
+					15,255,30
+				],[
+					255,128,128
+				],[
+					200,200,200
+				]
+			]
+		}
+	},
+	
+	"preparation": {		
+		"verification": {
+			"show_all_errors": false,
+			
+			"datasets": [{
+				"desc": "verify train dataset",
+				"images_path": "data/datasets/STIHL_SemSeg_Data/color_masks/train/raw/",
+				"segs_path": "data/datasets/STIHL_SemSeg_Data/color_masks/train/labeled/"
+			}, {
+				"desc": "verify val dataset",
+				"images_path": "data/datasets/STIHL_SemSeg_Data/color_masks/val/raw/",
+				"segs_path": "data/datasets/STIHL_SemSeg_Data/color_masks/val/labeled/"
+			}, {
+				"desc": "verify test dataset",
+				"images_path": "data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/",
+				"segs_path": "data/datasets/STIHL_SemSeg_Data/color_masks/test/labeled/"
+			}]
+		},
+		"visualisation": {
+			"do_augment": false,
+			"ignore_non_matching": false,
+			"no_show": false,
+
+			"datasets": [{
+				"desc": "visualize train dataset",
+				"images_path": "data/datasets/STIHL_SemSeg_Data/color_masks/train/raw/",
+				"segs_path": "data/datasets/STIHL_SemSeg_Data/color_masks/train/labeled/"
+			}, {
+				"desc": "visualize val dataset",
+				"images_path": "data/datasets/STIHL_SemSeg_Data/color_masks/val/raw/",
+				"segs_path": "data/datasets/STIHL_SemSeg_Data/color_masks/val/labeled/"
+			}, {
+				"desc": "visualize test dataset",
+				"images_path": "data/datasets/STIHL_SemSeg_Data/color_masks/test/raw/",
+				"segs_path": "data/datasets/STIHL_SemSeg_Data/color_masks/test/labeled/"
+			}]	
+		}
+	}
+}

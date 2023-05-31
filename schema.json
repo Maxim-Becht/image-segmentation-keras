@@ -75,8 +75,7 @@
             }
           },
           "required": [
-            "current",
-            "history"
+            "current"
           ]
         },
         "date": {
@@ -109,12 +108,10 @@
       "type": "integer"
     },
     "input_height": {
-      "type": "integer",
-      "default": null
+      "type": "integer"
     },
     "input_width": {
-      "type": "integer",
-      "default": null
+      "type": "integer"
     },
     "ignore_zero_class": {
       "type": "boolean",
@@ -162,7 +159,6 @@
           "default": false
         },
         "load_weights": {
-          "type": "string",
           "default": null
         },
         "do_augment": {
@@ -170,7 +166,6 @@
           "default": false
         },
         "augmentation_name": {
-          "type": "string",
           "default": null
         },
         "enable_tensorboard": {
@@ -178,19 +173,15 @@
           "default": false
         },
         "callbacks": {
-          "type": "string",
           "default": null
         },
         "custom_augmentation": {
-          "type": "string",
           "default": null
         },
         "other_inputs_paths": {
-          "type": "string",
           "default": null
         },
         "preprocessing": {
-          "type": "string",
           "default": null
         },
         "read_image_type": {
@@ -258,7 +249,6 @@
             }
           },
           "required": [
-            "checkpoints_path",
             "images_path",
             "segs_path"
           ]
@@ -278,11 +268,11 @@
             },
             "prediction_width": {
               "type": "integer",
-              "default": null
+              "default": -1
             },
             "prediction_height": {
               "type": "integer",
-              "default": null
+              "default": -1
             },
             "overlay_img": {
               "type": "boolean",
@@ -306,7 +296,19 @@
               "default": null,
               "items": [
                 {
-                  "type": "string"
+                  "type": "array",
+                  "default": null,
+                  "items": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
                 }
               ]
             },
@@ -316,7 +318,6 @@
             }
           },
           "required": [
-            "checkpoints_path",
             "input_path",
             "output_path"
           ]
@@ -381,7 +382,6 @@
               "default": "aug_all"
             },
             "custom_aug": {
-              "type": "string",
               "default": null
             },
             "ignore_non_matching": {
@@ -394,7 +394,6 @@
             },
             "image_size": {
               "type": "array",
-              "default": null,
               "items": [
                 {
                   "type": "integer"

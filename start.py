@@ -1,4 +1,5 @@
 import json, jsonschema
+import subprocess
 import os
 from jsonschema import Draft4Validator, validators
 from pathlib import Path
@@ -57,6 +58,9 @@ def create_input_frame(container):
     # rename json cfg file
     ttk.Button(frame, text='Auto Rename JSON cfg', command=lambda: auto_rename_cfg_file_CALLBACK()).grid(column=1, row=3)
 
+    # open tensor board
+    ttk.Button(frame, text='Open TensorBoard', command=open_tensorboard_CALLBACK).grid(column=0, row=4)
+
     # Enable TensorBoard checkbox
     global enable_tensorboard_overwrite 
     enable_tensorboard_overwrite = tk.StringVar(value=1)
@@ -92,7 +96,6 @@ def create_button_frame(container):
     ttk.Button(frame, text='Start Training', command=start_training_CALLBACK).grid(column=0, row=2)
     ttk.Button(frame, text='Start Evaluation', command=start_evaluation_CALLBACK).grid(column=0, row=3)
     ttk.Button(frame, text='Start Prediction', command=start_prediction_CALLBACK).grid(column=0, row=4)
-    ttk.Button(frame, text='Cancel').grid(column=0, row=5)
 
     for widget in frame.winfo_children():
         widget.grid(padx=5, pady=5)
@@ -155,6 +158,11 @@ def validate_json_CALLBACK():
         return
 
     validate_json(json_cfg, json_schema)
+
+def open_tensorboard_CALLBACK():
+    open_tensorboard()
+
+
 
 def auto_rename_cfg_file_CALLBACK():
     auto_rename_cfg_file()
@@ -236,7 +244,7 @@ def start_training_CALLBACK():
 
     # overwrite global cfg
     read_image_type = 1
-    if cfg_training["read_image_type"]:
+    if cfg_training.get("read_image_type") is not None:
         read_image_type = cfg_training["read_image_type"]
 
 
@@ -285,6 +293,7 @@ def start_dataset_verification_CALLBACK():
         verify_segmentation_dataset (
             images_path = dataset["images_path"],
             segs_path = dataset["segs_path"],
+            n_classes = json_cfg["n_classes"],
             show_all_errors = cfg_verification["show_all_errors"]
         )
 
@@ -294,16 +303,21 @@ def start_dataset_visualization_CALLBACK():
     cfg_visualisation = cfg_preparation["visualisation"]
     datasets =  cfg_visualisation["datasets"]
 
+    image_size = None
+    if cfg_visualisation.get("image_size") is not None:
+        image_size = cfg_visualisation["image_size"]
+
     for dataset in datasets:
         visualize_segmentation_dataset (
             images_path=dataset["images_path"],
             segs_path=dataset["segs_path"],
+            n_classes=json_cfg["n_classes"],
             do_augment = cfg_visualisation["do_augment"],
             augment_name = cfg_visualisation["augment_name"],
             custom_aug = cfg_visualisation["custom_aug"],
             ignore_non_matching = cfg_visualisation["ignore_non_matching"],
 			no_show = cfg_visualisation["no_show"],
-			image_size = cfg_visualisation["image_size"]
+			image_size = image_size
         )
 
 def start_evaluation_CALLBACK():
@@ -312,7 +326,7 @@ def start_evaluation_CALLBACK():
     cfg_evaluation = cfg_testing["evaluation"]
 
     checkpoints_path = json_cfg["checkpoints_path"]
-    if cfg_evaluation["checkpoints_path"]:
+    if cfg_evaluation.get("checkpoints_path") is not None:
         checkpoints_path = cfg_evaluation["checkpoints_path"]
 
     evaluate (
@@ -328,14 +342,21 @@ def start_prediction_CALLBACK():
     cfg_prediction = cfg_testing["prediction"]
 
     checkpoints_path = json_cfg["checkpoints_path"]
-    if cfg_prediction["checkpoints_path"]:
+    if cfg_prediction.get("checkpoints_path") is not None:
         checkpoints_path = cfg_prediction["checkpoints_path"]
 
     input_path = cfg_prediction["input_path"]
     input_path_extension = input_path.split('.')[-1]
     output_path = cfg_prediction["output_path"]
+
     prediction_width = cfg_prediction["prediction_width"]
+    if prediction_width <= 0:
+        prediction_width = None
     prediction_height = cfg_prediction["prediction_height"]
+    if prediction_height <= 0:
+        prediction_height = None
+
+
     overlay_img = cfg_prediction["overlay_img"]
     show_legends = cfg_prediction["show_legends"]
     class_names = cfg_prediction["class_names"]
@@ -357,8 +378,8 @@ def start_prediction_CALLBACK():
             )
     else:
         return predict_multiple (
-                inp=input_path, 
-                out_fname=output_path,
+                inp_dir=input_path, 
+                out_dir=output_path,
                 checkpoints_path=checkpoints_path,
                 prediction_width=prediction_width,
                 prediction_height=prediction_height,
@@ -374,7 +395,7 @@ def create_cfg_filename():
     if not json_cfg:
         messagebox.showerror("ERROR", "json_cfg not set")
         return
-    if not json_cfg["cfg_header"]:
+    if json_cfg.get("cfg_header") is None:
         messagebox.showerror("ERROR", "cfg_header in json_cfg not set")
         return
 
@@ -390,52 +411,15 @@ def auto_rename_cfg_file():
         new_json_cfg_path = Path.joinpath(Path(json_cfg_path).parent, new_cfg_name)
         os.rename(json_cfg_path, new_json_cfg_path)
 
+def open_tensorboard():
+    p = subprocess.Popen(["tensorboard", "--logdir", "logs/fit"])
+    # p.terminate()
 
 
 
 
 
 
-
-
-# replacement = ttk.Entry(frame, width=30)
-# replacement.grid(column=1, row=1, sticky=tk.W)
-
-
-# def main():
-#     root = tk.Tk()
-#     root.title = ""
-
-#     frame = ttk.Frame(root, padding=(10, 10, 10, 10))
-#     frame.grid(column=0, row=0, sticky='swne')
-
-#     # root.withdraw() hide ui
-#     root.mainloop()
-
-# path = Path.absolute(Path("./"))
-# resolver = validators.RefResolver(
-#     base_uri=f"{path.as_uri()}/",
-#     referrer=True,
-# )
-# jsonschema.validate(
-#     instance=json_cfg,
-#     schema={"$ref": "schema.json"},
-#     resolver=resolver,
-# )
-
-
-   # cfg_header = data['cfg_header']
-
-    # model_name = data['model_name']
-    # n_classes = data['n_classes']
-    # input_height = data['input_height']             #"input_height": "null",
-    # input_width = data['input_width']               #"input_width": "null",
-    # ignore_zero_class = data['ignore_zero_class']   #"ignore_zero_class": false,
-    # verify_dataset = data['verify_dataset']         #"verify_dataset": true,
-    # checkpoints_path = data['checkpoints_path']     #"checkpoints_path": "null",
-    # read_image_type = data['read_image_type']       #"read_image_type" : 1, 	 
-
-    # training_epochs = data['training']['epochs']
 
 if __name__ == "__main__":
     create_main_window()

@@ -1,0 +1,10 @@
+{
+    "train_images": "data/datasets/STIHL/simplyfied_3/train/raw/",
+    "train_annotations": "data/datasets/STIHL/simplyfied_3/train/labeled/",
+
+    "val_images": "data/datasets/STIHL/simplyfied_3/val/raw/",
+	"val_annotations": "data/datasets/STIHL/simplyfied_3/val/labeled/",
+
+    "test_images": "data/datasets/STIHL/simplyfied_3/test/raw/",
+	"test_annotations": "data/datasets/STIHL/simplyfied_3/test/labeled/"
+}

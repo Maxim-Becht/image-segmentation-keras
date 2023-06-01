@@ -214,17 +214,9 @@
               "type": "boolean",
               "default": false
             }
-          },
-          "required": [
-            "val_images",
-            "val_annotations"
-          ]
+          }
         }
-      },
-      "required": [
-        "train_images",
-        "train_annotations"
-      ]
+      }
     },
     "testing": {
       "type": "object",
@@ -247,11 +239,7 @@
               "type": "integer",
               "default": 1
             }
-          },
-          "required": [
-            "images_path",
-            "segs_path"
-          ]
+          }
         },
         "prediction": {
           "type": "object",
@@ -318,7 +306,6 @@
             }
           },
           "required": [
-            "input_path",
             "output_path"
           ]
         }
@@ -357,17 +344,12 @@
                     }
                   },
                   "required": [
-                    "desc",
-                    "images_path",
-                    "segs_path"
+                    "desc"
                   ]
                 }
               ]
             }
-          },
-          "required": [
-            "datasets"
-          ]
+          }
         },
         "visualisation": {
           "type": "object",
@@ -420,17 +402,12 @@
                     }
                   },
                   "required": [
-                    "desc",
-                    "images_path",
-                    "segs_path"
+                    "desc"
                   ]
                 }
               ]
             }
-          },
-          "required": [
-            "datasets"
-          ]
+          }
         }
       },
       "required": [

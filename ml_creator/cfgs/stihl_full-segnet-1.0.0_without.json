@@ -22,11 +22,10 @@
 	"ignore_zero_class": true,
 	"verify_dataset": true,
 	"checkpoints_path": "data\\trained_models\\stihl_full-segnet-1.0.0\\checkpoints\\",
+	"dataset": "stihl_full",
 	"read_image_type" : 1, 	 
 	
     "training": {
-		"train_images": "data/datasets/STIHL/complete/train/raw/",
-		"train_annotations": "data/datasets/STIHL/complete/train/labeled/",
 		"epochs": 5,
 		"steps_per_epoch": 512,
 		"batch_size": 2,
@@ -36,8 +35,6 @@
 		
 		"validate": true,
 		"validation": {
-			"val_images": "data/datasets/STIHL/complete/val/raw/",
-			"val_annotations": "data/datasets/STIHL/complete/val/labeled/",
 			"val_steps_per_epoch": 512,
 			"val_batch_size": 2,
 			"gen_use_multiprocessing": false
@@ -46,12 +43,9 @@
     
 	"testing": {
 		"evaluation": {
-			"images_path": "data/datasets/STIHL/complete/test/raw/",
-			"segs_path": "data/datasets/STIHL/complete/test/labeled/",
 			"read_image_type": 1
 		},
 		"prediction": {
-			"input_path": "data/datasets/STIHL/complete/test/raw/",
 			"output_path": "data/trained_models/stihl_full-segnet-1.0.0/predictions/5-epochs/",
 			"overlay_img": false,
 			"show_legends": false,
@@ -134,40 +128,12 @@
 	
 	"preparation": {		
 		"verification": {
-			"show_all_errors": false,
-			
-			"datasets": [{
-				"desc": "verify train dataset",
-				"images_path": "data/datasets/STIHL/complete/train/raw/",
-				"segs_path": "data/datasets/STIHL/complete/train/labeled/"
-			}, {
-				"desc": "verify val dataset",
-				"images_path": "data/datasets/STIHL/complete/val/raw/",
-				"segs_path": "data/datasets/STIHL/complete/val/labeled/"
-			}, {
-				"desc": "verify test dataset",
-				"images_path": "data/datasets/STIHL/complete/test/raw/",
-				"segs_path": "data/datasets/STIHL/complete/test/labeled/"
-			}]
+			"show_all_errors": false
 		},
 		"visualisation": {
 			"do_augment": false,
 			"ignore_non_matching": false,
-			"no_show": false,
-
-			"datasets": [{
-				"desc": "visualize train dataset",
-				"images_path": "data/datasets/STIHL/complete/train/raw/",
-				"segs_path": "data/datasets/STIHL/complete/train/labeled/"
-			}, {
-				"desc": "visualize val dataset",
-				"images_path": "data/datasets/STIHL/complete/val/raw/",
-				"segs_path": "data/datasets/STIHL/complete/val/labeled/"
-			}, {
-				"desc": "visualize test dataset",
-				"images_path": "data/datasets/STIHL/complete/test/raw/",
-				"segs_path": "data/datasets/STIHL/complete/test/labeled/"
-			}]	
+			"no_show": false
 		}
 	}
 }

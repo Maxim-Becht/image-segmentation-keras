@@ -29,7 +29,9 @@ json_cfg = {}
 json_schema_path = ""
 json_schema = {}
 json_dataset_cfg = {}
+
 enable_tensorboard_overwrite = False
+always_validate_cfg = True
 
 DS_CAT = Enum('DS_CAT', ['TRAIN', 'VAL', 'TEST'])
 IMG_TYPE = Enum('IMG_TYPE', ['RAW', 'LABELED'])
@@ -50,22 +52,28 @@ def choose_json_schema_path():
 def load_json_cfg_file(cfg_path):
     json_cfg = {}
 
-    # Opening JSON file
-    with open(cfg_path) as json_file:
-        json_cfg = json.load(json_file)
+    if cfg_path:
+        # Opening JSON file
+        with open(cfg_path) as json_file:
+            json_cfg = json.load(json_file)
 
-        if json_cfg.get("dataset") is not None:
-            load_json_dataset_cfg_file(json_cfg["dataset"])
-    return json_cfg
+            if json_cfg.get("dataset") is not None:
+                load_json_dataset_cfg_file(json_cfg["dataset"])
+
+            if json_cfg.get("training").get("validate") is not None:
+                gui.enable_validation.set(value=json_cfg["training"]["validate"])
+                
+        return json_cfg
     
 
 def load_json_schema_file(schema_path):
     json_schema={}
 
-    # Opening JSON schema file
-    with open(schema_path) as json_schema_file:
-        json_schema = json.load(json_schema_file)
-    return json_schema
+    if schema_path:
+        # Opening JSON schema file
+        with open(schema_path) as json_schema_file:
+            json_schema = json.load(json_schema_file)
+        return json_schema
 
 
 def load_json_dataset_cfg_file(dataset_cfg_name):
@@ -175,6 +183,8 @@ def validate_json(json_cfg, json_schema):
         schema=json_schema,
     )
 
+    print("validation of cfg \"{cfg_name}\" complete".format(cfg_name=os.path.basename(json_cfg_path)))
+
 
 def extend_with_default(validator_class):
     validate_properties = validator_class.VALIDATORS["properties"]
@@ -223,6 +233,9 @@ def validate_json_CALLBACK():
 
 
 def start_training_CALLBACK():
+    if always_validate_cfg:
+        validate_json_CALLBACK()
+
     #cfg_header = json_cfg["cfg_header"]
     # todo: add header name to writer of TensorBoard file naming
     cfg_training = json_cfg["training"]
@@ -236,6 +249,8 @@ def start_training_CALLBACK():
     if cfg_training.get("read_image_type") is not None:
         read_image_type = cfg_training["read_image_type"]
 
+    validate = gui.enable_validation.get()
+
     train (
         model = json_cfg["model_name"],
         train_images = get_dataset_path(DS_CAT.TRAIN, IMG_TYPE.RAW),
@@ -247,7 +262,7 @@ def start_training_CALLBACK():
         checkpoints_path = json_cfg["checkpoints_path"],
         epochs = cfg_training["epochs"],
         batch_size = cfg_training["batch_size"],
-        validate = cfg_training["validate"],
+        validate = validate,
         val_images = get_dataset_path(DS_CAT.VAL, IMG_TYPE.RAW),
         val_annotations = get_dataset_path(DS_CAT.VAL, IMG_TYPE.LABELED),
         val_batch_size = cfg_training_val["val_batch_size"],
@@ -273,6 +288,9 @@ def start_training_CALLBACK():
 
 
 def start_dataset_verification_CALLBACK():
+    if always_validate_cfg:
+        validate_json_CALLBACK()
+
     cfg_preparation = json_cfg["preparation"]
     cfg_verification = cfg_preparation["verification"]
 
@@ -302,6 +320,9 @@ def start_dataset_verification_CALLBACK():
 
 
 def start_dataset_visualization_CALLBACK():
+    if always_validate_cfg:
+        validate_json_CALLBACK()
+
     cfg_preparation = json_cfg["preparation"]
     cfg_visualisation = cfg_preparation["visualisation"]
 
@@ -345,6 +366,9 @@ def start_dataset_visualization_CALLBACK():
 
 
 def start_evaluation_CALLBACK():
+    if always_validate_cfg:
+        validate_json_CALLBACK()
+
     cfg_testing = json_cfg["testing"]
     cfg_evaluation = cfg_testing["evaluation"]
 
@@ -361,6 +385,9 @@ def start_evaluation_CALLBACK():
 
 
 def start_prediction_CALLBACK():
+    if always_validate_cfg:
+        validate_json_CALLBACK()
+
     cfg_testing = json_cfg["testing"]
     cfg_prediction = cfg_testing["prediction"]
 
@@ -412,7 +439,7 @@ def start_prediction_CALLBACK():
                 colors=colors,
                 read_image_type=read_image_type
             )
-    
+
 
 def open_tensorboard_CALLBACK():
     open_tensorboard()

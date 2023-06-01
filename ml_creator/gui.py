@@ -4,11 +4,13 @@ import api
 
 
 textboxes = {}
-
+enable_validation = None
 
 # execute function before going into mainloop
-def start():
+def start(root):
     api.load_default_json_schema()
+    # global enable_validation
+    # enable_validation = tk.BooleanVar(root, value=True)
 
 
 def create_input_frame(container):
@@ -44,24 +46,24 @@ def create_input_frame(container):
     # open tensor board
     ttk.Button(frame, text='Open TensorBoard', command=lambda: api.open_tensorboard_CALLBACK()).grid(column=0, row=4)
 
-    # Enable TensorBoard checkbox
-    global enable_tensorboard_overwrite 
-    enable_tensorboard_overwrite = tk.StringVar(value=1)
-    match_case_check = ttk.Checkbutton(
+    # Always validate cfg file checkbox
+    always_validate_cfg = tk.BooleanVar(value=True)
+    always_validate_cfg_checkbox = ttk.Checkbutton (
         frame,
-        text='Enable TensorBoard',
-        variable=enable_tensorboard_overwrite,
-        command=lambda: print(enable_tensorboard_overwrite.get()))
-    match_case_check.grid(column=0, row=2, sticky=tk.W)
+        text='Always validate cfg',
+        variable=always_validate_cfg,
+        command=lambda: (assign_always_validate_cfg(bool(always_validate_cfg.get())), print("always_validate_cfg: ", bool(always_validate_cfg.get()))))
+    always_validate_cfg_checkbox.grid(column=0, row=2, sticky=tk.W)
 
     # Enable Validation checkbox
-    wrap_around = tk.StringVar(value=1)
-    wrap_around_check = ttk.Checkbutton(
+    global enable_validation
+    enable_validation = tk.BooleanVar(value=True)
+    enable_validation_checkbox = ttk.Checkbutton(
         frame,
-        variable=wrap_around,
         text='Validate after epoch',
-        command=lambda: print(wrap_around.get()))
-    wrap_around_check.grid(column=0, row=3, sticky=tk.W)
+        variable=enable_validation,
+        command=lambda: (assign_enable_validation(bool(enable_validation.get())), print("enable_validation: ", bool(enable_validation.get()))))
+    enable_validation_checkbox.grid(column=0, row=3, sticky=tk.W)
 
     for widget in frame.winfo_children():
         widget.grid(padx=5, pady=5)
@@ -106,7 +108,7 @@ def create_main_window():
     button_frame = create_button_frame(root)
     button_frame.grid(column=1, row=0)
 
-    start()
+    start(root)
 
     root.mainloop()
 
@@ -116,3 +118,11 @@ def write_textbox(textbox_name, text):
     txtbox.configure(state='normal')
     txtbox.insert(1.0,text)
     txtbox.configure(state='disabled')
+
+
+def assign_always_validate_cfg(value: bool):
+    api.always_validate_cfg = value
+
+
+def assign_enable_validation(value: bool):
+    api.enable_validation = value
